@@ -12,16 +12,34 @@ class IDS:
     def __init__(self):
         self.alerts = []
 
-    def log_event(self, event):
-        logging.info(f'Event logged: {event}')
+    def log_event(self, user, action):
+        event = f"User: {user}, Action: {action}"
+        logging.info(event)
         self.alerts.append(event)
 
-    def detect_anomaly(self, activity):
-        # Пример функции, анализирующей действия пользователя
-        if activity == "suspicious_activity":
-            self.log_event("Suspicious activity detected!")
-        return activity
+    def detect_anomalies(self, user, activity_type):
+        if activity_type == "failed_login" and user.failed_attempts > 5:
+            self.log_event(user, "Suspicious login activity detected")
+            return True
+        return False
+    
+    def send_alert(self, message):
+      # Функция для отправки email или записи уведомления
+      print(f"ALERT: {message}")
 
+    def generate_report(self):
+    # Создание отчета по событиям
+      with open("audit_report.csv", "w") as file:
+          file.write("User, Action, Time\n")
+          for event in self.alerts:
+              file.write(event + "\n")
+
+    def adapt_access(self, user):
+      # Проверка активности и адаптация доступа
+      if self.detect_anomalies(user, "suspicious_activity"):
+          user.access_level = "restricted"
+          self.send_alert(f"Access level changed for {user}")
+          
 # Пример использования IDS
 if __name__ == "__main__":
     ids = IDS()
