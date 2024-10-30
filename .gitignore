@@ -1,0 +1,14 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+*.sqlite3
+media/
+*.log
+
+# Git и системы
+.DS_Store
+*.bak

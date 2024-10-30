@@ -1,0 +1,293 @@
+/* Удаление отступов и прокрутки */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* Стили для фона на всех страницах */
+body {
+    background-image: url("../img/login.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0.9); /* Четкость фона */
+    
+}
+
+/* Дополнительные стили, чтобы страницы содержали весь экран */
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 97vh;
+    text-align: center;
+    padding: 10px 20px; /* Уменьшаем отступы сверху и снизу */
+}
+
+/* Стили для формы входа */
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.9); /* Полупрозрачный белый фон для формы */
+    text-align: center;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: rgba(60, 60, 60, 0.9); /* Прозрачный темно-серый цвет */
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.login-form button:hover {
+    background-color: #0056b3;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-header img {
+    max-width: 200px;
+}
+
+/* Стили для элементов, которые можно перетаскивать */
+.question, .document {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    cursor: move; /* Указатель перетаскивания */
+    text-align: left; /* Выровнять текст по левой стороне */
+}
+
+.question.dragging, .document.dragging {
+    opacity: 0.5; /* Полупрозрачный элемент во время перетаскивания */
+}
+
+.dragging {
+    opacity: 0.5;
+    border: 2px dashed #000;
+}
+
+#selected-questions,
+#selected-documents {
+    min-height: 200px;
+    background-color: #f0f0f0;
+    border: 2px dashed #ccc;
+}
+
+#selected-questions .question,
+#selected-documents .document {
+    margin: 5px;
+}
+
+/* Остальные стили */
+.content {
+    margin-left: 250px; /* Ширина слайдбара */
+    min-width: calc(100% - 250px); /* Минимальная ширина .main-content, чтобы она не перекрывала .sidebar */
+    overflow: hidden; /* Убирает горизонтальную прокрутку */
+}
+.sidebar {
+    width: 250px;
+    height: 100%;
+    background-color: #757272;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow: auto;
+    padding: 20px 0;
+}
+
+.menu-header {
+    padding: 10px 20px;
+    background: #75727288; /* Slightly lighter than the sidebar background for contrast */
+    cursor: pointer;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    display: none; /* Start with sub-menus hidden */
+    background: #75727297; /* Same as sidebar for a consistent look */
+}
+
+.menu-list li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px 20px;
+}
+
+.menu-list li a:hover {
+    background-color: #2a282840;
+}
+
+.menu-item:hover .menu-list {
+    display: block; /* Show sub-menu on hover */
+}
+
+/* Новые стили для страницы редактирования */
+.edit-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+.question-form, .answers-form {
+    margin-bottom: 20px;
+}
+.answer-form {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.answer-form p {
+    margin: 0;
+}
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    text-decoration: none;
+}
+.btn:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+/* Стили для textarea */
+textarea {
+    resize: vertical; /* Позволяет изменять размер только вертикально */
+    min-height: 50px; /* Минимальная высота */
+    max-height: 200px; /* Максимальная высота */
+    overflow: auto; /* Скрывает полосу прокрутки */
+    box-sizing: border-box; /* Учитывать отступы и границы в размерах */
+    width: 100%; /* Занимать всю доступную ширину */
+    padding: 10px; /* Внутренний отступ */
+}
+
+/* Стили для select2 */
+.select2-container {
+    width: 100% !important; /* Занимать всю доступную ширину */
+}
+
+.select2-selection--multiple {
+    height: auto; /* Автоматическая высота для содержимого */
+    padding: 8px 12px; /* Внутренний отступ */
+    border: 1px solid #ddd; /* Обводка */
+    border-radius: 4px; /* Скругленные углы */
+    background-color: #fff; /* Цвет фона */
+}
+
+.select2-selection--multiple .select2-selection__choice {
+    color: #333; /* Цвет текста */
+    background-color: #e9ecef; /* Фон выбора */
+    border: 1px solid #ccc; /* Обводка выбора */
+    border-radius: 4px; /* Скругленные углы выбора */
+    padding: 3px 10px; /* Внутренний отступ выбора */
+    margin: 3px 5px 3px 0; /* Отступы выбора */
+}
+
+.select2-selection--multiple .select2-selection__choice__remove {
+    color: #888; /* Цвет текста удаления */
+    margin-left: 5px; /* Отступ удаления */
+    cursor: pointer; /* Указатель курсора */
+}
+
+/* Стили для поиска */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-bar form {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 0 4px 4px 0;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Стили для вопросов */
+.question-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравнивание текста ответов влево */
+    text-align: left; /* Выравнивание текста по левой стороне */
+}
+
+.question-item p {
+    margin: 0;
+}
+
+.question-item .tags {
+    color: #999;
+    margin-top: 5px;
+}

@@ -1,0 +1,88 @@
+{% extends 'dashboard/base_dash.html' %}
+
+{% block content %}
+<h1>Создать новый вопрос</h1>
+<form method="post" class="edit-form">
+    {% csrf_token %}
+    <div class="question-form">
+        {{ form.as_p }}
+    </div>
+    <h2>Ответы</h2>
+    <div class="answers-form" id="answers-form">
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="answer-form" id="answer-form-{{ forloop.counter }}">
+                {{ form.as_p }}
+                <p><a href="javascript:void(0);" class="delete-form" data-form-id="{{ form.prefix }}">Удалить</a></p>
+            </div>
+        {% endfor %}
+    </div>
+    <button type="button" id="add-answer-btn" class="btn btn-secondary">Добавить ответ</button>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script>
+    $(document).ready(function() {
+        // Инициализация select2 для тегов
+        $('.django-select2').select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            placeholder: 'Выберите или создайте метки',
+            allowClear: true,
+            width: '100%'  // Устанавливаем ширину на 100%
+        });
+
+        // Обработчик удаления формы ответа
+        function addDeleteHandler(button) {
+            button.addEventListener('click', function() {
+                var formId = this.getAttribute('data-form-id');
+                document.querySelector(`[name="${formId}-DELETE"]`).checked = true;
+                this.closest('.answer-form').style.display = 'none';
+            });
+        }
+
+        document.querySelectorAll('.delete-form').forEach(button => {
+            addDeleteHandler(button);
+        });
+
+        // Динамическое добавление форм ответов
+        let formCount = {{ formset.total_form_count }};
+        $('#add-answer-btn').click(function() {
+            const newForm = $('#answers-form div.answer-form:first').clone(false);
+            newForm.find(':input').each(function() {
+                const name = $(this).attr('name').replace(/-\d+-/, `-${formCount}-`);
+                const id = `id_${name}`;
+                $(this).attr({ 'name': name, 'id': id }).val('').prop('checked', false);
+            });
+            newForm.find('label').each(function() {
+                const newFor = $(this).attr('for').replace(/-\d+-/, `-${formCount}-`);
+                $(this).attr('for', newFor);
+            });
+            newForm.find('.delete-form').attr('data-form-id', `form-${formCount}`);
+            $('#answers-form').append(newForm);
+            addDeleteHandler(newForm.find('.delete-form')[0]);
+            formCount++;
+            $('#id_form-TOTAL_FORMS').val(formCount);
+        });
+
+        // Функция для автоматического изменения высоты textarea
+        function autoResizeTextarea(textarea) {
+            textarea.style.height = 'auto'; // Сброс высоты для правильного расчета scrollHeight
+            textarea.style.height = Math.min(textarea.scrollHeight, textarea.style.minHeight.replace('px', '')) + 'px'; // Установка высоты по содержимому или минимальной высоте
+        }
+
+        // Применение функции ко всем textarea при загрузке страницы и при вводе текста
+        document.querySelectorAll('textarea').forEach(textarea => {
+            autoResizeTextarea(textarea);
+            textarea.addEventListener('input', function() {
+                autoResizeTextarea(this);
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,15 @@
+<!-- templates/dashboard/view_document.html -->
+{% extends 'home/base.html' %}
+
+{% block content %}
+<h1>{{ document.title }}</h1>
+<div class="main-content">
+    <p><strong>Загружен:</strong> {{ document.uploaded_at }}</p>
+    <p><strong>Теги:</strong> 
+        {% for tag in document.tags.all %}
+            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+    <p><a href="{{ document.file.url }}">Скачать файл</a></p>
+</div>
+{% endblock %}

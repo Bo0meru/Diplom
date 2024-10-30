@@ -1,0 +1,52 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<h1>Панель управления</h1>
+<div class="main-content">
+    <form method="get" action="{% url 'dashboard' %}">
+        <input type="text" name="q" placeholder="Поиск по ключевым словам или меткам" value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-primary">Поиск</button>
+    </form>
+    <div>
+        <h2>Вопросы и ответы</h2>
+        {% if questions %}
+            {% for question in questions %}
+                <div>
+                    <p><strong>Вопрос {{ question.id }}:</strong> <a href="{% url 'edit_question' question.id %}">{{ question.text }}</a></p>
+                    <p><strong>Теги:</strong> 
+                        {% for tag in question.tags.all %}
+                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <ul>
+                    {% for answer in question.answers.all %}
+                        <li {% if answer.correct %}style="color: green;"{% endif %}>{{ answer.text }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Ничего не найдено.</p>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2>Загруженные документы</h2>
+        <ul>
+        {% for document in documents %}
+            <li>
+                <a href="{% url 'view_document' document.id %}">{{ document.title }}</a>
+                (загружен: {{ document.uploaded_at }})
+                <p><strong>Теги:</strong> 
+                    {% for tag in document.tags.all %}
+                        {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <a href="{{ document.file.url }}">Скачать файл</a>
+                <a href="{% url 'edit_document' document.id %}">Редактировать</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-form">
+        <div class="login-header">
+            <img src="{% static 'img/asta_logo.png' %}" alt="Astra Linux">
+        </div>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="id_username">Username</label>
+            <input type="text" id="id_username" name="username" required>
+
+            <label for="id_password">Password</label>
+            <input type="password" id="id_password" name="password" required>
+
+            <button type="submit">Login</button>
+
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

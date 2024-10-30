@@ -1,0 +1,31 @@
+{% extends "dashboard/base_dash.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Доступные метки</h2>
+    <div class="tag-container">
+        {% for tag in tags %}
+            <div class="tag-item">
+                {{ tag.name }}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+    .tag-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .tag-item {
+        background-color: #f1f1f1;
+        padding: 10px 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+</style>

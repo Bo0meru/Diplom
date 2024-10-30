@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra V2</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+<div class="sidebar">
+    <div class="menu-section">
+        <div class="menu-item">
+            <div class="menu-header">Общедоступные</div>
+            <ul class="menu-list">
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#history">История</a></li>
+            </ul>
+        </div>
+        {% comment %} {% if request.user.is_authenticated and request.user.groups.filter(name__in=["Администратор", "Методист", "Преподаватель"]).exists %} {% endcomment %}
+        <div class="menu-item">
+            <div class="menu-header">Для персонала</div>
+            <ul class="menu-list">
+                <li><a href="{% url 'questions' %}">Вопросы</a></li>
+                <li><a href="{% url 'documents' %}">Документы</a></li>
+            </ul>
+        </div>
+        {% comment %} {% endif %} {% endcomment %}
+    </div>
+</div>
+<div class="content">
+    <div class="main-container">
+        <div class="search-bar">
+
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var headers = document.querySelectorAll('.menu-header');
+    headers.forEach(function(header) {
+        header.addEventListener('click', function() {
+            var menuList = this.nextElementSibling;
+            if (menuList.style.display === 'block') {
+                menuList.style.display = 'none';
+            } else {
+                menuList.style.display = 'block';
+            }
+        });
+    });
+});
+</script>
+
+{% block extra_js %}
+{% endblock %}
+</body>
+</html>

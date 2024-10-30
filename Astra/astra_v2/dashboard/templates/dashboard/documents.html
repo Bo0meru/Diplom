@@ -1,0 +1,202 @@
+{% extends 'dashboard/base_dash.html' %}
+
+{% block title %}Документы{% endblock %}
+
+{% block dashboard_content %}
+<div style="display: flex;">
+    <div id="available-documents" style="flex: 1;">
+        <h2>Загруженные документы</h2>
+        {% if documents %}
+            {% for document in documents %}
+                <div id="document-{{ document.id }}" class="document" draggable="true" data-id="{{ document.id }}" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background-color: #f9f9f9; cursor: move;">
+                    <p><strong>Документ {{ forloop.counter }}: </strong><a href="{% url 'edit_document' document.id %}">{{ document.title }}</a>  ({{ document.uploaded_at }})</p>
+                    <p><strong>Теги:</strong> 
+                        {% for tag in document.tags.all %}
+                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                    <a href="{{ document.file.url }}">Скачать файл</a> |
+                    <a href="{% url 'preview_document' document.id %}">Предпросмотр</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Ничего не найдено.</p>
+        {% endif %}
+    </div>
+    <div id="selected-documents" style="flex: 1; border: 2px dashed #ccc; padding: 10px; background-color: #fafafa; min-height: 300px;">
+        <h2>Выбранные документы</h2>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        function initializeDragAndDrop(itemClass, sourceContainerId, targetContainerId) {
+            const items = document.querySelectorAll(itemClass);
+            const sourceContainer = document.getElementById(sourceContainerId);
+            const targetContainer = document.getElementById(targetContainerId);
+            const exportBtn = document.getElementById('export-btn');
+
+            // Удаление предыдущих слушателей событий, если они есть
+            const newExportBtn = exportBtn.cloneNode(true);
+            exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
+
+            if (!items.length) {
+                console.log('Items not found:', itemClass);
+                return;
+            }
+            if (!sourceContainer || !targetContainer) {
+                console.log('Container not found:', sourceContainerId, targetContainerId);
+                return;
+            }
+
+            const originalPositions = Array.from(sourceContainer.children).map(child => child.id);
+            console.log('Original positions:', originalPositions);
+
+            items.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', item.dataset.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    item.classList.add('dragging');
+                    console.log('Drag started:', item);
+                });
+
+                item.addEventListener('dragend', function(e) {
+                    item.classList.remove('dragging');
+                    console.log('Drag ended:', item);
+                });
+
+                item.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    console.log('Drag enter:', item);
+                });
+
+                item.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    console.log('Drag over:', item);
+                });
+
+                item.addEventListener('dragleave', function(e) {
+                    console.log('Drag leave:', item);
+                });
+            });
+
+            [sourceContainer, targetContainer].forEach(container => {
+                container.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    console.log('Drag over container:', container.id);
+                });
+
+                container.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    const id = e.dataTransfer.getData('text/plain');
+                    const item = document.querySelector(`${itemClass}[data-id="${id}"]`);
+                    console.log('Drop event:', item, 'in container:', container.id);
+                    if (item && !document.querySelector(`#${container.id} ${itemClass}[data-id="${id}"]`)) {
+                        const clonedItem = item.cloneNode(true);
+                        clonedItem.classList.remove('dragging');
+                        clonedItem.setAttribute('draggable', true);
+                        container.appendChild(clonedItem);
+                        item.remove();
+                        console.log('Item cloned and added to container, and original item removed:', container.id);
+
+                        initializeDragAndDrop(itemClass, sourceContainerId, targetContainerId);
+
+                        if (container.id === sourceContainerId) {
+                            const children = Array.from(container.children);
+                            children.sort((a, b) => originalPositions.indexOf(a.id) - originalPositions.indexOf(b.id));
+                            children.forEach(child => container.appendChild(child));
+                            console.log('Restored original order for source container:', originalPositions);
+                        }
+
+                        saveSelectedDocuments();
+                    }
+                });
+            });
+
+            newExportBtn.addEventListener('click', function() {
+                const selectedIds = Array.from(targetContainer.querySelectorAll(itemClass)).map(item => item.dataset.id);
+                const exportUrl = targetContainerId === 'selected-documents' ? '{% url "export_documents" %}' : '{% url "export_documents" %}';
+                fetch(exportUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ids: selectedIds})
+                })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = targetContainerId === 'selected-documents' ? 'selected_documents.zip' : 'selected_documents.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    console.log('File downloaded:', a.download);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
+
+        function saveSelectedDocuments() {
+            const selectedDocuments = Array.from(document.getElementById('selected-documents').children).map(item => item.dataset.id);
+            document.getElementById('selected-ids').value = selectedDocuments.join(',');
+            console.log('Selected documents saved to hidden field:', selectedDocuments);
+        }
+
+        function restoreSelectedDocuments() {
+            const selectedIdsValue = document.getElementById('selected-ids').value;
+            const selectedDocuments = selectedIdsValue ? selectedIdsValue.split(',') : [];
+            const availableDocuments = document.getElementById('available-documents');
+            const selectedContainer = document.getElementById('selected-documents');
+
+            selectedDocuments.forEach(id => {
+                const item = availableDocuments.querySelector(`.document[data-id="${id}"]`);
+                if (item) {
+                    const clonedItem = item.cloneNode(true);
+                    clonedItem.classList.remove('dragging');
+                    clonedItem.setAttribute('draggable', true);
+                    selectedContainer.appendChild(clonedItem);
+                    item.remove();
+                    console.log('Restored selected document:', id);
+                }
+            });
+
+            initializeDragAndDrop('.document', 'available-documents', 'selected-documents');
+        }
+
+        function performSearch(query) {
+            const selectedIdsValue = document.getElementById('selected-ids').value;
+            fetch(`{% url 'documents' %}?q=${query}&selected_ids=${selectedIdsValue}`, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('search-results').innerHTML = data;
+                restoreSelectedDocuments();
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        if (document.getElementById('selected-documents')) {
+            console.log('Initializing drag and drop for documents');
+            initializeDragAndDrop('.document', 'available-documents', 'selected-documents');
+            restoreSelectedDocuments();
+        }
+
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            saveSelectedDocuments();
+            this.submit();
+        });
+    });
+</script>
+{% endblock %}
