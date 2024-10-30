@@ -19,6 +19,7 @@ urlpatterns = [
     path('tags/', views.tag_list, name='tag_list'),
     path('tags/autocomplete/', views.tag_autocomplete, name='tag_autocomplete'),
     path('documents/preview/<int:pk>/', views.preview_document, name='preview_document'),
+    path('generate-report/', views.generate_report, name='generate_report'),
 ] 
 
 if settings.DEBUG:

@@ -18,6 +18,7 @@ class IDS:
     def log_event(self, user, action):
         event = f"Пользователь: {user}, Действие: {action}"
         logging.info(event)
+        print(f"Logging event: {event}")  # Выводим событие для проверки
         self.alerts.append(event)
     
     # 2. Обнаружение подозрительной активности на основе частоты действий
@@ -64,10 +65,11 @@ class IDS:
         report_path = os.path.join(os.path.dirname(__file__), "daily_report.txt")
         with open(report_path, "w", encoding="utf-8") as report_file:
             for event in self.alerts:
-                # Добавляем метку времени к каждому событию
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 report_file.write(f"{timestamp} - {event}\n")
-        print(f"Отчёт создан: {report_path}")
+                print(f"Writing to report: {timestamp} - {event}")  # Выводим для проверки
+        print(f"Отчет создан: {report_path}")
+
 
 # Пример использования IDS
 if __name__ == "__main__":

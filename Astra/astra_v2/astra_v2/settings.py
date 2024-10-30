@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import sys
+from pathlib import Path
 sys.path.append(str(Path("O:/Diplom/IDS")))
 
-from pathlib import Path
+
 import os
 
 from pathlib import Path
