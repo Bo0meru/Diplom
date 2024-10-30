@@ -1,2 +1,413 @@
-2024-10-30 23:34:23 - Пользователь: astra, Действие: Редактирование вопроса
-2024-10-30 23:34:23 - Пользователь: astra, Действие: Экспорт документов
+Ежедневный отчет IDS
+
+2024-10-30 22:57:28,929 - Пользователь: test_user, Действие: Вход в систему
+2024-10-30 22:57:29,932 - Пользователь: test_user, Действие: Высокая частота действий
+2024-10-30 22:57:30,033 - Пользователь: test_user, Действие: Высокая частота действий
+2024-10-30 22:57:30,133 - Пользователь: test_user, Действие: Подозрительный вход с нового устройства или IP
+2024-10-30 22:57:30,133 - Пользователь: test_user, Действие: Блокировка после множества неудачных попыток входа
+2024-10-30 22:57:30,133 - Пользователь: 192.168.1.100, Действие: IP заблокирован из-за подозрительной активности
+2024-10-30 22:58:58,376 - Пользователь: test_user, Действие: Вход в систему
+2024-10-30 22:58:59,379 - Пользователь: test_user, Действие: Высокая частота действий
+2024-10-30 22:58:59,480 - Пользователь: test_user, Действие: Высокая частота действий
+2024-10-30 22:58:59,580 - Пользователь: test_user, Действие: Подозрительный вход с нового устройства или IP
+2024-10-30 22:58:59,580 - Пользователь: test_user, Действие: Блокировка после множества неудачных попыток входа
+2024-10-30 22:58:59,580 - Пользователь: 192.168.1.100, Действие: IP заблокирован из-за подозрительной активности
+2024-10-30 22:59:09,477 - Пользователь: test_user, Действие: Вход в систему
+2024-10-30 22:59:10,483 - Пользователь: test_user, Действие: Высокая частота действий
+2024-10-30 22:59:10,584 - Пользователь: test_user, Действие: Высокая частота действий
+2024-10-30 22:59:10,684 - Пользователь: test_user, Действие: Подозрительный вход с нового устройства или IP
+2024-10-30 22:59:10,684 - Пользователь: test_user, Действие: Блокировка после множества неудачных попыток входа
+2024-10-30 22:59:10,684 - Пользователь: 192.168.1.100, Действие: IP заблокирован из-за подозрительной активности
+2024-10-30 23:24:36,045 - Watching for file changes with StatReloader
+2024-10-30 23:24:58,805 - Not Found: /favicon.ico
+2024-10-30 23:25:06,282 - Пользователь: astra, Действие: Вход в систему
+2024-10-30 23:25:11,150 - Пользователь: astra, Действие: Редактирование вопроса
+2024-10-30 23:25:46,424 - Пользователь: astra, Действие: Редактирование вопроса
+2024-10-30 23:25:57,144 - Пользователь: astra, Действие: Экспорт вопросов
+2024-10-30 23:29:14,986 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:29:15,362 - Watching for file changes with StatReloader
+2024-10-30 23:29:17,843 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:29:18,190 - Watching for file changes with StatReloader
+2024-10-30 23:29:31,489 - Not Found: /generate-report/
+2024-10-30 23:29:47,633 - O:\Diplom\Astra\astra_v2\dashboard\urls.py changed, reloading.
+2024-10-30 23:29:47,977 - Watching for file changes with StatReloader
+2024-10-30 23:29:50,460 - O:\Diplom\Astra\astra_v2\dashboard\urls.py changed, reloading.
+2024-10-30 23:29:50,805 - Watching for file changes with StatReloader
+2024-10-30 23:29:51,996 - O:\Diplom\Astra\astra_v2\dashboard\urls.py changed, reloading.
+2024-10-30 23:29:52,336 - Watching for file changes with StatReloader
+2024-10-30 23:29:55,661 - Not Found: /generate-report/
+2024-10-30 23:29:56,372 - Not Found: /generate-report/
+2024-10-30 23:29:57,042 - Not Found: /generate-report/
+2024-10-30 23:29:57,516 - Not Found: /generate-report/
+2024-10-30 23:33:22,239 - O:\Diplom\IDS\ids_core.py changed, reloading.
+2024-10-30 23:33:22,599 - Watching for file changes with StatReloader
+2024-10-30 23:33:38,497 - O:\Diplom\IDS\ids_core.py changed, reloading.
+2024-10-30 23:33:38,854 - Watching for file changes with StatReloader
+2024-10-30 23:33:41,359 - O:\Diplom\IDS\ids_core.py changed, reloading.
+2024-10-30 23:33:41,708 - Watching for file changes with StatReloader
+2024-10-30 23:34:10,831 - Пользователь: astra, Действие: Редактирование вопроса
+2024-10-30 23:34:18,847 - Пользователь: astra, Действие: Экспорт документов
+2024-10-30 23:46:34,799 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:46:35,161 - Watching for file changes with StatReloader
+2024-10-30 23:47:42,134 - Watching for file changes with StatReloader
+2024-10-30 23:49:04,606 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:04,950 - Watching for file changes with StatReloader
+2024-10-30 23:49:07,242 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:07,601 - Watching for file changes with StatReloader
+2024-10-30 23:49:10,974 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:11,348 - Watching for file changes with StatReloader
+2024-10-30 23:49:13,556 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:13,902 - Watching for file changes with StatReloader
+2024-10-30 23:49:22,362 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:22,706 - Watching for file changes with StatReloader
+2024-10-30 23:49:23,881 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:24,240 - Watching for file changes with StatReloader
+2024-10-30 23:49:51,220 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:49:51,573 - Watching for file changes with StatReloader
+2024-10-30 23:50:03,124 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:50:03,465 - Watching for file changes with StatReloader
+2024-10-30 23:50:19,145 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:50:19,474 - Watching for file changes with StatReloader
+2024-10-30 23:50:21,781 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:50:22,138 - Watching for file changes with StatReloader
+2024-10-30 23:50:29,576 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:50:29,926 - Watching for file changes with StatReloader
+2024-10-30 23:50:43,759 - Watching for file changes with StatReloader
+2024-10-30 23:52:00,100 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-30 23:52:00,481 - Watching for file changes with StatReloader
+2024-10-30 23:52:09,993 - Watching for file changes with StatReloader
+2024-10-30 23:57:05,967 - Watching for file changes with StatReloader
+2024-10-31 00:00:04,062 - Пользователь: astra, Действие: Редактирование документа
+2024-10-31 00:02:02,785 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:02:03,164 - Watching for file changes with StatReloader
+2024-10-31 00:02:04,444 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:02:04,786 - Watching for file changes with StatReloader
+2024-10-31 00:02:07,277 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:02:07,628 - Watching for file changes with StatReloader
+2024-10-31 00:02:09,921 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:02:10,257 - Watching for file changes with StatReloader
+2024-10-31 00:03:49,630 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:03:49,988 - Watching for file changes with StatReloader
+2024-10-31 00:04:06,942 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:04:07,291 - Watching for file changes with StatReloader
+2024-10-31 00:04:09,505 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:04:09,864 - Watching for file changes with StatReloader
+2024-10-31 00:04:12,353 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:04:12,708 - Watching for file changes with StatReloader
+2024-10-31 00:05:20,556 - Пользователь: astra, Действие: Просмотр документа
+2024-10-31 00:07:13,868 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:07:14,255 - Watching for file changes with StatReloader
+2024-10-31 00:07:45,608 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:07:45,955 - Watching for file changes with StatReloader
+2024-10-31 00:07:54,423 - Watching for file changes with StatReloader
+2024-10-31 00:09:44,408 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:09:44,796 - Watching for file changes with StatReloader
+2024-10-31 00:10:00,675 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:10:01,044 - Watching for file changes with StatReloader
+2024-10-31 00:11:54,134 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:11:54,517 - Watching for file changes with StatReloader
+2024-10-31 00:11:58,049 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:11:58,408 - Watching for file changes with StatReloader
+2024-10-31 00:17:04,290 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:17:04,667 - Watching for file changes with StatReloader
+2024-10-31 00:17:49,470 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:17:49,818 - Watching for file changes with StatReloader
+2024-10-31 00:18:10,872 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:18:11,226 - Watching for file changes with StatReloader
+2024-10-31 00:18:48,406 - Internal Server Error: /dashboard/documents/upload/
+Traceback (most recent call last):
+  File "O:\Diplom\IDS\sandbox\sandbox.py", line 64, in process_file
+    if not self.is_safe_file(temp_path):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\IDS\sandbox\sandbox.py", line 34, in is_safe_file
+    if file_path.stat().st_size > self.max_file_size:
+       ^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'stat'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\Astra\astra_v2\dashboard\views.py", line 147, in upload_document
+    result = sandbox.process_file(temp_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\IDS\sandbox\sandbox.py", line 76, in process_file
+    os.remove(temp_path)
+TypeError: remove: path should be string, bytes or os.PathLike, not NoneType
+2024-10-31 00:20:55,905 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:20:56,300 - Watching for file changes with StatReloader
+2024-10-31 00:20:57,793 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:20:58,179 - Watching for file changes with StatReloader
+2024-10-31 00:21:13,060 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:21:13,410 - Watching for file changes with StatReloader
+2024-10-31 00:21:15,888 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:21:16,247 - Watching for file changes with StatReloader
+2024-10-31 00:21:37,306 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:21:37,670 - Watching for file changes with StatReloader
+2024-10-31 00:23:51,358 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:23:51,729 - Watching for file changes with StatReloader
+2024-10-31 00:24:13,949 - Пользователь: astra, Действие: Редактирование документа
+2024-10-31 00:24:36,824 - Internal Server Error: /dashboard/documents/upload/
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\Astra\astra_v2\dashboard\views.py", line 165, in upload_document
+    os.remove(temp_path)
+FileNotFoundError: [WinError 2] Не удается найти указанный файл: 'O:\\Diplom\\IDS\\sandbox\\uploads\\unins000.exe'
+2024-10-31 00:27:24,879 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:27:25,259 - Watching for file changes with StatReloader
+2024-10-31 00:30:17,135 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:30:17,496 - Watching for file changes with StatReloader
+2024-10-31 00:31:54,084 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:31:54,432 - Watching for file changes with StatReloader
+2024-10-31 00:34:22,565 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:34:22,920 - Watching for file changes with StatReloader
+2024-10-31 00:37:52,995 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:37:53,349 - Watching for file changes with StatReloader
+2024-10-31 00:40:24,664 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:40:25,019 - Watching for file changes with StatReloader
+2024-10-31 00:41:28,337 - Watching for file changes with StatReloader
+2024-10-31 00:45:43,757 - O:\Diplom\Astra\astra_v2\dashboard\forms.py changed, reloading.
+2024-10-31 00:45:44,115 - Watching for file changes with StatReloader
+2024-10-31 00:45:48,393 - O:\Diplom\Astra\astra_v2\dashboard\forms.py changed, reloading.
+2024-10-31 00:45:48,739 - Watching for file changes with StatReloader
+2024-10-31 00:45:49,928 - O:\Diplom\Astra\astra_v2\dashboard\forms.py changed, reloading.
+2024-10-31 00:45:50,274 - Watching for file changes with StatReloader
+2024-10-31 00:46:17,090 - O:\Diplom\Astra\astra_v2\dashboard\forms.py changed, reloading.
+2024-10-31 00:46:17,443 - Watching for file changes with StatReloader
+2024-10-31 00:48:48,817 - Watching for file changes with StatReloader
+2024-10-31 00:50:34,705 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:50:35,064 - Watching for file changes with StatReloader
+2024-10-31 00:52:42,611 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:52:43,034 - Watching for file changes with StatReloader
+2024-10-31 00:54:37,918 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 00:54:38,286 - Watching for file changes with StatReloader
+2024-10-31 00:57:02,396 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 00:57:02,752 - Watching for file changes with StatReloader
+2024-10-31 00:59:31,317 - Пользователь: astra, Действие: Предпросмотр документа
+2024-10-31 00:59:31,361 - Internal Server Error: /dashboard/documents/preview/21/
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\template\smartif.py", line 180, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "document.file.url.endswith('.pdf')"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\Astra\astra_v2\dashboard\views.py", line 282, in preview_document
+    return render(request, 'dashboard/preview_document.html', {'document': document})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\backends\django.py", line 33, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\engine.py", line 177, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 154, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
+    return parser.parse()
+           ^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 510, in parse
+    raise self.error(token, e)
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\loader_tags.py", line 295, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 510, in parse
+    raise self.error(token, e)
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 510, in parse
+    raise self.error(token, e)
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 508, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\defaulttags.py", line 960, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\defaulttags.py", line 893, in __init__
+    super().__init__(*args, **kwargs)
+  File "O:\PY\Lib\site-packages\django\template\smartif.py", line 171, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\smartif.py", line 182, in translate_token
+    return self.create_var(token)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\defaulttags.py", line 896, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 597, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\template\base.py", line 698, in __init__
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '('.pdf')' from 'document.file.url.endswith('.pdf')'
+2024-10-31 01:00:01,955 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:00:02,335 - Watching for file changes with StatReloader
+2024-10-31 01:00:07,604 - Watching for file changes with StatReloader
+2024-10-31 01:02:04,986 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:02:05,341 - Watching for file changes with StatReloader
+2024-10-31 01:06:07,481 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:06:07,834 - Watching for file changes with StatReloader
+2024-10-31 01:06:29,903 - Internal Server Error: /dashboard/documents/upload/
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\Astra\astra_v2\dashboard\views.py", line 148, in upload_document
+    temp_path = sandbox.save_temp_file(uploaded_file)
+                ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Sandbox' object has no attribute 'save_temp_file'
+2024-10-31 01:08:02,088 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:08:02,444 - Watching for file changes with StatReloader
+2024-10-31 01:12:46,777 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:12:47,192 - Watching for file changes with StatReloader
+2024-10-31 01:13:13,421 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:13:13,756 - Watching for file changes with StatReloader
+2024-10-31 01:13:15,220 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:13:15,573 - Watching for file changes with StatReloader
+2024-10-31 01:13:20,264 - Watching for file changes with StatReloader
+2024-10-31 01:13:36,285 - Internal Server Error: /dashboard/documents/upload/
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\Astra\astra_v2\dashboard\views.py", line 150, in upload_document
+    sandbox = Sandbox()
+              ^^^^^^^^^
+TypeError: Sandbox.__init__() missing 1 required positional argument: 'ids'
+2024-10-31 01:14:34,086 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:14:34,442 - Watching for file changes with StatReloader
+2024-10-31 01:14:49,058 - Internal Server Error: /dashboard/documents/upload/
+Traceback (most recent call last):
+  File "O:\PY\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\PY\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "O:\Diplom\Astra\astra_v2\dashboard\views.py", line 151, in upload_document
+    sandbox = Sandbox()
+              ^^^^^^^^^
+TypeError: Sandbox.__init__() missing 1 required positional argument: 'ids'
+2024-10-31 01:16:37,855 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:16:38,228 - Watching for file changes with StatReloader
+2024-10-31 01:16:49,694 - Not Found: /favicon.ico
+2024-10-31 01:16:57,146 - Пользователь: system, Действие: Файл F1Moba-V1.12_gTOv0A6.bin успешно записан во временную папку O:\Diplom\IDS\sandbox\uploads\F1Moba-V1.12_gTOv0A6.bin
+2024-10-31 01:16:57,168 - Пользователь: system, Действие: Недопустимый MIME-тип или расширение: application/octet-stream, .bin
+2024-10-31 01:16:57,168 - Пользователь: system, Действие: Файл не прошел проверку безопасности.
+2024-10-31 01:17:38,325 - Пользователь: system, Действие: Файл Создание СЭМД направления.txt успешно записан во временную папку O:\Diplom\IDS\sandbox\uploads\Создание СЭМД направления.txt
+2024-10-31 01:17:38,326 - Пользователь: system, Действие: Файл успешно прошел анализ содержимого.
+2024-10-31 01:17:38,326 - Пользователь: system, Действие: Файл успешно прошел все проверки.
+2024-10-31 01:18:15,307 - Пользователь: system, Действие: Файл Создание СЭМД направления.txt успешно записан во временную папку O:\Diplom\IDS\sandbox\uploads\Создание СЭМД направления.txt
+2024-10-31 01:18:15,308 - Пользователь: system, Действие: Файл успешно прошел анализ содержимого.
+2024-10-31 01:18:15,308 - Пользователь: system, Действие: Файл успешно прошел все проверки.
+2024-10-31 01:18:30,111 - Watching for file changes with StatReloader
+2024-10-31 01:19:04,473 - Пользователь: astra, Действие: Вход в систему
+2024-10-31 01:19:33,168 - Пользователь: system, Действие: Файл Создание СЭМД направления.txt успешно записан во временную папку O:\Diplom\IDS\sandbox\uploads\Создание СЭМД направления.txt
+2024-10-31 01:19:33,169 - Пользователь: system, Действие: Файл успешно прошел анализ содержимого.
+2024-10-31 01:19:33,169 - Пользователь: system, Действие: Файл успешно прошел все проверки.
+2024-10-31 01:22:21,989 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:22:22,370 - Watching for file changes with StatReloader
+2024-10-31 01:22:40,874 - Пользователь: system, Действие: Файл Создание СЭМД направления.txt успешно записан во временную папку O:\Diplom\IDS\sandbox\uploads\Создание СЭМД направления.txt
+2024-10-31 01:22:40,896 - Пользователь: system, Действие: Файл успешно прошел анализ содержимого.
+2024-10-31 01:22:40,896 - Пользователь: system, Действие: Файл успешно прошел все проверки.
+2024-10-31 01:25:17,348 - O:\Diplom\Astra\astra_v2\dashboard\views.py changed, reloading.
+2024-10-31 01:25:17,726 - Watching for file changes with StatReloader
+2024-10-31 01:25:51,164 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:25:51,518 - Watching for file changes with StatReloader
+2024-10-31 01:26:02,274 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:26:02,637 - Watching for file changes with StatReloader
+2024-10-31 01:26:05,154 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:26:05,516 - Watching for file changes with StatReloader
+2024-10-31 01:28:09,695 - O:\Diplom\IDS\sandbox\sandbox.py changed, reloading.
+2024-10-31 01:28:10,049 - Watching for file changes with StatReloader
+2024-10-31 01:28:23,405 - Пользователь: astra, Действие: Файл Создание СЭМД направления.txt успешно записан во временную папку O:\Diplom\IDS\sandbox\uploads\Создание СЭМД направления.txt
+2024-10-31 01:28:23,427 - Пользователь: astra, Действие: Файл успешно прошел анализ содержимого.
+2024-10-31 01:28:23,427 - Пользователь: astra, Действие: Файл успешно прошел все проверки.
+2024-10-31 01:34:57,151 - O:\Diplom\IDS\ids_core.py changed, reloading.
+2024-10-31 01:34:57,532 - Watching for file changes with StatReloader

@@ -60,16 +60,20 @@ class IDS:
             return "Доступ запрещён"
         return "Доступ разрешён"
     
-    # 6. Создание отчёта
+    # 6. Создание отчёта из лог-файла
     def generate_daily_report(self):
         report_path = os.path.join(os.path.dirname(__file__), "daily_report.txt")
-        with open(report_path, "w", encoding="utf-8") as report_file:
-            for event in self.alerts:
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                report_file.write(f"{timestamp} - {event}\n")
-                print(f"Writing to report: {timestamp} - {event}")  # Выводим для проверки
-        print(f"Отчет создан: {report_path}")
+        if not os.path.exists(log_path):
+            print("[ERROR] Лог-файл отсутствует. Отчет не может быть создан.")
+            return
 
+        with open(report_path, "w", encoding="utf-8") as report_file:
+            report_file.write("Ежедневный отчет IDS\n\n")
+            with open(log_path, "r", encoding="utf-8") as log_file:
+                for line in log_file:
+                    report_file.write(line)
+                    print(f"Writing to report: {line.strip()}")  # Для проверки выводим в консоль
+        print(f"Отчет создан: {report_path}")
 
 # Пример использования IDS
 if __name__ == "__main__":

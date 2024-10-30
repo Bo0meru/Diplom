@@ -134,7 +134,12 @@ def create_question(request):
 @login_required
 @user_passes_test(check_user_group)
 def upload_document(request):
+    # Инициализируем IDS и передаем его в Sandbox
+    ids = IDS()
+    sandbox = Sandbox(ids, user=request.user.username)
+    print("[DEBUG] Sandbox инициализирован с IDS")
     print("[DEBUG] Начало выполнения upload_document")  # Лог начала выполнения представления
+
     if request.method == 'POST':
         print(f"[DEBUG] request.FILES содержимое: {request.FILES}")  # Лог содержимого request.FILES
 
@@ -143,8 +148,7 @@ def upload_document(request):
             uploaded_file = request.FILES['file']
             print(f"[DEBUG] Файл {uploaded_file.name} получен для загрузки")  # Лог получения файла
 
-            # Создаем экземпляр Sandbox и сохраняем файл во временной папке для проверки
-            sandbox = Sandbox()
+            # Сохраняем файл во временной папке для проверки
             temp_path = sandbox.save_temp_file(uploaded_file)
 
             # Проверка, что файл был успешно сохранен во временной папке
@@ -158,7 +162,7 @@ def upload_document(request):
             print(f"[DEBUG] Результат проверки файла: {result}")  # Лог результата проверки
 
             # Проверка, если файл не прошел проверку, сразу возвращаемся
-            if result != "Файл успешно прошел проверку.":
+            if result != "Файл успешно прошел все проверки.":
                 if os.path.exists(temp_path):
                     os.remove(temp_path)
                 print("[ERROR] Файл не прошел проверку, возврат на страницу загрузки")  # Дополнительный лог

@@ -3,93 +3,116 @@ import mimetypes
 from pathlib import Path
 
 class Sandbox:
-    def __init__(self):
+    def __init__(self, ids, user="system"):
         # Путь для загрузки и временного хранения файлов
         self.upload_dir = Path("O:/Diplom/IDS/sandbox/uploads")
         self.upload_dir.mkdir(parents=True, exist_ok=True)  # Создание директории, если её нет
 
         # Параметры безопасности
         self.max_file_size = 5 * 1024 * 1024  # 5 МБ
-
-        # MIME-типы и расширения файлов, которые разрешены для загрузки
         self.allowed_mime_types = [
             "application/pdf",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            "text/plain",  # Разрешаем текстовые файлы
-            "image/png",   # Разрешаем PNG
-            "image/jpeg",  # Разрешаем JPEG
-            "application/msword",  # Разрешаем .doc файлы
+            "text/plain",
+            "image/png",
+            "image/jpeg",
+            "application/msword",
         ]
-        
         self.allowed_extensions = [".pdf", ".docx", ".txt", ".png", ".jpeg", ".jpg", ".doc"]
 
+        # Инициализация IDS для логирования событий
+        self.ids = ids
+        self.user = user
+
     def save_temp_file(self, uploaded_file):
-        """Сохраняет загружаемый файл во временной папке для проверки."""
+        """Сохраняет загружаемый файл во временной папке для проверки и логирует это действие."""
         temp_path = self.upload_dir / uploaded_file.name
         try:
             with open(temp_path, 'wb+') as destination:
                 for chunk in uploaded_file.chunks():
                     destination.write(chunk)
-            print(f"[LOG] Файл {uploaded_file.name} успешно записан в {temp_path}")
+            log_msg = f"Файл {uploaded_file.name} успешно записан во временную папку {temp_path}"
+            print(f"[LOG] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
             return temp_path
         except Exception as e:
-            print(f"[ERROR] Ошибка записи файла {uploaded_file.name}: {e}")
+            log_msg = f"Ошибка записи файла {uploaded_file.name}: {e}"
+            print(f"[ERROR] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
             return None
 
     def is_safe_file(self, file_path):
-        """Проверка типа и размера файла."""
+        """Проверка типа и размера файла с логированием результата."""
         try:
-            # Проверка размера
             if file_path.stat().st_size > self.max_file_size:
-                print("[LOG] Файл превышает допустимый размер.")
+                log_msg = "Файл превышает допустимый размер."
+                print(f"[LOG] {log_msg}")
+                self.ids.log_event(self.user, log_msg)
                 return False
 
-            # Определение MIME-типа и расширения
             mime_type, _ = mimetypes.guess_type(file_path)
-            file_extension = file_path.suffix.lower()  # Получаем расширение файла
+            file_extension = file_path.suffix.lower()
             
             print(f"[LOG] MIME-тип файла: {mime_type}")
             print(f"[LOG] Расширение файла: {file_extension}")
 
-            # Проверка MIME-типа и расширения
             if mime_type not in self.allowed_mime_types or file_extension not in self.allowed_extensions:
-                print(f"[LOG] Недопустимый MIME-тип или расширение: {mime_type}, {file_extension}")
+                log_msg = f"Недопустимый MIME-тип или расширение: {mime_type}, {file_extension}"
+                print(f"[LOG] {log_msg}")
+                self.ids.log_event(self.user, log_msg)
                 return False
 
             return True
         except Exception as e:
-            print(f"[ERROR] Ошибка при проверке файла {file_path}: {e}")
+            log_msg = f"Ошибка при проверке файла {file_path}: {e}"
+            print(f"[ERROR] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
             return False
 
     def analyze_file(self, file_path):
-        """Анализирует содержимое файла на предмет вредоносного содержимого."""
+        """Анализирует содержимое файла на предмет вредоносного содержимого с логированием результата."""
         try:
             with open(file_path, "rb") as f:
                 content = f.read()
                 if b"<script>" in content or b"eval(" in content:
-                    print("[LOG] Обнаружен потенциально вредоносный контент.")
+                    log_msg = "Обнаружен потенциально вредоносный контент."
+                    print(f"[LOG] {log_msg}")
+                    self.ids.log_event(self.user, log_msg)
                     return False
-            print("[LOG] Файл успешно прошёл анализ содержимого.")
+            log_msg = "Файл успешно прошел анализ содержимого."
+            print(f"[LOG] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
             return True
         except Exception as e:
-            print(f"[ERROR] Ошибка анализа файла: {e}")
+            log_msg = f"Ошибка анализа файла: {e}"
+            print(f"[ERROR] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
             return False
 
     def process_file(self, temp_path):
-        """Процесс проверки файла, принимает путь к уже сохранённому файлу."""
+        """Процесс проверки файла, принимает путь к уже сохранённому файлу и логирует результат."""
         try:
-            # Проверка безопасности
             if not self.is_safe_file(temp_path):
-                os.remove(temp_path)  # Удаляем файл, если он не прошёл проверку
-                return "Файл не прошел проверку безопасности."
+                os.remove(temp_path)
+                log_msg = "Файл не прошел проверку безопасности."
+                print(f"[LOG] {log_msg}")
+                self.ids.log_event(self.user, log_msg)
+                return log_msg
 
-            # Анализ содержимого
             if not self.analyze_file(temp_path):
-                os.remove(temp_path)  # Удаляем файл, если он содержит подозрительное содержимое
-                return "Файл содержит подозрительное содержимое."
+                os.remove(temp_path)
+                log_msg = "Файл содержит подозрительное содержимое."
+                print(f"[LOG] {log_msg}")
+                self.ids.log_event(self.user, log_msg)
+                return log_msg
 
-            print("[LOG] Файл успешно прошел все проверки.")
-            return "Файл успешно прошел проверку."
+            log_msg = "Файл успешно прошел все проверки."
+            print(f"[LOG] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
+            return log_msg
         except Exception as e:
-            os.remove(temp_path)  # Удаляем файл при возникновении ошибки
-            return f"Ошибка анализа файла: {e}"
+            os.remove(temp_path)
+            log_msg = f"Ошибка анализа файла: {e}"
+            print(f"[ERROR] {log_msg}")
+            self.ids.log_event(self.user, log_msg)
+            return log_msg
