@@ -5,6 +5,27 @@ setup(
     version="1.0",
     packages=find_packages(),
     install_requires=[
-        # Добавьте здесь любые зависимости, такие как 'requests', 'python-telegram-bot', и т.д.
+        "anyio==4.6.2.post1",
+        "asgiref==3.8.1",
+        "certifi==2024.8.30",
+        "charset-normalizer==3.4.0",
+        "Django==5.1.2",
+        "django-appconf==1.0.6",
+        "django-select2==8.2.1",
+        "h11==0.14.0",
+        "httpcore==1.0.6",
+        "httpx==0.27.2",
+        "idna==3.10",
+        "lxml==5.3.0",
+        "python-docx==1.1.2",
+        "python-telegram-bot==21.6",
+        "requests==2.32.3",
+        "schedule==1.2.2",
+        "sniffio==1.3.1",
+        "sqlparse==0.5.1",
+        "typing_extensions==4.12.2",
+        "tzdata==2024.2",
+        "urllib3==2.2.3",
+        "setuptools==75.3.0"
     ],
 )
