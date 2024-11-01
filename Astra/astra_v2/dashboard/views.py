@@ -12,6 +12,7 @@ from .forms import QuestionForm, AnswerFormSet, DocumentForm
 
 from sandbox.sandbox import Sandbox
 from ids_core import IDS
+from alert_bot.telegram_bot import send_telegram_alert, send_daily_report
 
 import json
 import zipfile
@@ -19,8 +20,8 @@ import os
 from docx import Document as DocxDocument
 
 
-# Инициализация IDS
-ids = IDS()
+# Инициализация IDS с отправкой уведомлений
+ids = IDS(alert_func=send_telegram_alert, report_func=send_daily_report)
 
 def check_user_group(user):
     return user.groups.filter(name__in=['Администратор', 'Методист']).exists()
@@ -135,37 +136,36 @@ def create_question(request):
 @user_passes_test(check_user_group)
 def upload_document(request):
     # Инициализируем IDS и передаем его в Sandbox
-    ids = IDS()
     sandbox = Sandbox(ids, user=request.user.username)
     print("[DEBUG] Sandbox инициализирован с IDS")
-    print("[DEBUG] Начало выполнения upload_document")  # Лог начала выполнения представления
+    print("[DEBUG] Начало выполнения upload_document")
 
     if request.method == 'POST':
-        print(f"[DEBUG] request.FILES содержимое: {request.FILES}")  # Лог содержимого request.FILES
+        print(f"[DEBUG] request.FILES содержимое: {request.FILES}")
 
         form = DocumentForm(request.POST, request.FILES)
         if form.is_valid() and 'file' in request.FILES:
             uploaded_file = request.FILES['file']
-            print(f"[DEBUG] Файл {uploaded_file.name} получен для загрузки")  # Лог получения файла
+            print(f"[DEBUG] Файл {uploaded_file.name} получен для загрузки")
 
             # Сохраняем файл во временной папке для проверки
             temp_path = sandbox.save_temp_file(uploaded_file)
 
-            # Проверка, что файл был успешно сохранен во временной папке
             if temp_path is None:
-                print("[ERROR] Ошибка сохранения временного файла")  # Лог ошибки сохранения
+                print("[ERROR] Ошибка сохранения временного файла")
                 messages.error(request, "Ошибка при сохранении временного файла для проверки.")
                 return render(request, 'dashboard/upload_document.html', {'form': form, 'current_page': 'upload_document'})
 
             # Запускаем процесс проверки файла, передавая путь к файлу
             result = sandbox.process_file(temp_path)
-            print(f"[DEBUG] Результат проверки файла: {result}")  # Лог результата проверки
+            print(f"[DEBUG] Результат проверки файла: {result}")
 
-            # Проверка, если файл не прошел проверку, сразу возвращаемся
+            # Проверка на безопасность файла
             if result != "Файл успешно прошел все проверки.":
+                ids.log_event(request.user.username, f"Файл {uploaded_file.name} не прошел проверку безопасности", critical=True)
                 if os.path.exists(temp_path):
                     os.remove(temp_path)
-                print("[ERROR] Файл не прошел проверку, возврат на страницу загрузки")  # Дополнительный лог
+                print("[ERROR] Файл не прошел проверку, возврат на страницу загрузки")
                 messages.error(request, result)
                 return render(request, 'dashboard/upload_document.html', {'form': form, 'current_page': 'upload_document'})
 
@@ -182,14 +182,15 @@ def upload_document(request):
             if os.path.exists(temp_path):
                 os.remove(temp_path)
 
-            print("[DEBUG] Документ успешно загружен в media")  # Лог успешного сохранения
+            print("[DEBUG] Документ успешно загружен в media")
+            ids.log_event(request.user.username, f"Файл {uploaded_file.name} успешно загружен", critical=False)
             messages.success(request, "Документ успешно загружен.")
             return redirect('dashboard')
 
     else:
         form = DocumentForm()
 
-    print("[DEBUG] Открытие страницы загрузки документа")  # Лог открытия страницы
+    print("[DEBUG] Открытие страницы загрузки документа")
     return render(request, 'dashboard/upload_document.html', {'form': form, 'current_page': 'upload_document'})
 
 
