@@ -68,7 +68,8 @@ ROOT_URLCONF = 'astra_v2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        # 'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'astra_v2.context_processors.check_user_access',
             ],
         },
     },
@@ -89,10 +91,15 @@ WSGI_APPLICATION = 'astra_v2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'aastra',  # Имя вашей базы данных
+        'USER': 'postgres',  # Пользователь базы данных
+        'PASSWORD': '4erevi4ki',  # Пароль
+        'HOST': 'localhost',  # Адрес сервера
+        'PORT': '5432',  # Порт PostgreSQL
     }
 }
+
 
 
 # Password validation
@@ -145,7 +152,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # LOGIN_REDIRECT_URL = '/dashboard/'
 LOGIN_REDIRECT_URL = '/accounts/profile/'
-
 LOGOUT_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

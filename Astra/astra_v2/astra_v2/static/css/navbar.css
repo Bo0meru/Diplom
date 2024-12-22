@@ -11,6 +11,7 @@
 	left: 0;
 	z-index: 100;
 	border: 1px solid #ffd107;
+    font-family: 'Roboto Mono', monospace;
 }
 
 .header .container {
@@ -56,10 +57,17 @@
 	display: flex;
 	gap: 15px;
 	border: 1px solid #42e24a;
+
+}
+
+.nav-list li {
+
+    border: 1px solid #42e24a;
+    
 }
 
 .nav-list li a {
-    font-family: 'Roboto Mono', monospace;
+    
     font-weight: 500;
     font-size: 1.8rem; /* Уменьшение шрифта для лучшей адаптации */
     text-decoration: none;
@@ -69,6 +77,36 @@
 
 .nav-list li a:hover {
 	color: #ff9800; /* Цвет при наведении */
+}
+
+/* Выпадающее меню */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    min-width: 150px;
+    border: 1px solid #42e24a;
+	background-color: #ffffff5e;
+	border-radius: 30px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+}
+
+.dropdown-content a {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    color: #000;
+}
+
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 /* Адаптивность для мобильных устройств */

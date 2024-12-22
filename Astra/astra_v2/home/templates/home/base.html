@@ -1,4 +1,3 @@
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -6,10 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Astra V2{% endblock %}</title>
+    <title>{% block title %}Astra Test{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/at_favicon.ico' %}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     {% block extra_css %}{% endblock %}
 
@@ -30,7 +30,16 @@
                     <li><a href="{% url 'about' %}">о нас</a></li>
                     <li><a href="#test">тест</a></li>
                     <li><a href="{% url 'profile' %}">профиль</a></li>
-                    <li><a href="#services">служебное</a></li>
+                    {% if has_service_access %}
+                        <li class="dropdown">
+                            <a href="#services" class="dropbtn">служебное</a>
+                                <div class="dropdown-content">
+                                    <a href="{% url 'dashboard' %}">тесты</a>
+                                    <a href="#documents">документы</a>
+                                    <a href="#exports">выгрузка</a>
+                                </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
