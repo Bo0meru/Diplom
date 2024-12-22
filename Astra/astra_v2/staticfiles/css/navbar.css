@@ -1,0 +1,104 @@
+/* Шапка */
+.header {
+	width: 100%;
+	background-color: #406ae700;
+	padding: 0px 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	border: 1px solid #ffd107;
+}
+
+.header .container {
+	width: 90%;
+	max-width: 90%;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 20px;
+	border: 2px solid #4269e2; /* Толщина 2px, сплошная линия, синий цвет */
+}
+
+/* Логотип слева */
+.logo {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+    margin-right: auto;
+	/*border: 2px solid #4269e2; /* Толщина 2px, сплошная линия, синий цвет */
+}
+
+.logo img {
+	width: 12vw; /* Адаптивный размер логотипа */
+	height: auto;
+	max-width: 200px; /* Ограничение максимального размера для больших экранов */
+   
+}
+
+/* Навигация справа */
+.navbar {
+	display: flex;
+	justify-content: flex-end; /* Расположить ссылки справа */
+	align-items: center; /* Вертикальное выравнивание по центру */
+	/* width: 100%;  Контейнер занимает всю ширину */
+
+}
+
+.nav-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	gap: 15px;
+	border: 1px solid #42e24a;
+}
+
+.nav-list li a {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: 1.8rem; /* Уменьшение шрифта для лучшей адаптации */
+    text-decoration: none;
+    color: rgba(110, 110, 110, 0.644);
+    transition: color 0.3s ease, font-size 0.3s ease; /* Плавная смена цвета и размера */
+}
+
+.nav-list li a:hover {
+	color: #ff9800; /* Цвет при наведении */
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .header .container {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .logo {
+        margin-bottom: 10px; /* Отступ снизу для логотипа */
+        justify-content: center;
+        width: 20vw;
+        
+    }
+
+    .navbar {
+        
+        right: 10px; /* Оставляем навигацию справа */
+        top: 50%;
+        transform: translateY(-50%); /* Центрируем навигацию по вертикали */
+    }
+
+    .nav-list {
+        flex-direction: column; /* Расположить элементы в столбик */
+        gap: 10px;
+    }
+
+    .nav-list li a {
+        font-size: 1rem; /* Уменьшение шрифта для мобильных устройств */
+    }
+}

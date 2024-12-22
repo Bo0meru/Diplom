@@ -1,0 +1,22 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h2>Профиль пользователя</h2>
+    <div class="profile-info">
+        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+    </div>
+
+    <!-- Кнопка "Выйти" с использованием POST -->
+    <form method="post" action="{% url 'logout' %}" style="margin-top: 20px;">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">Выйти из аккаунта</button>
+    </form>
+</div>
+{% endblock %}

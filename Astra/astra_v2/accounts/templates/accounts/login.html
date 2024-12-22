@@ -1,32 +1,97 @@
 {% extends "home/base.html" %}
 {% load static %}
-
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
 {% block content %}
 <div class="login-container">
-    <div class="login-form">
+    <div class="login-card">
+        <!-- Логотип -->
         <div class="login-header">
-            <img src="{% static 'img/asta_logo.png' %}" alt="Astra Linux">
+            <img src="{% static 'img/astra_logo.png' %}" alt="Astra Linux" class="logo_login">
+            <h2>Добро пожаловать</h2>
         </div>
-        <form method="post" action="{% url 'login' %}">
+
+        <!-- Переключатель "Вход/Регистрация" -->
+        <div class="auth-switch-slider">
+            <input type="radio" id="login" name="auth" checked>
+            <label for="login" class="auth-option">Вход</label>
+            <input type="radio" id="register" name="auth">
+            <label for="register" class="auth-option">Регистрация</label>
+            <div class="slider"></div>
+        </div>
+
+        <!-- Форма авторизации -->
+        <form method="post" id="login-form" action="{% url 'login' %}">
             {% csrf_token %}
-            <label for="id_username">Username</label>
-            <input type="text" id="id_username" name="username" required>
-
-            <label for="id_password">Password</label>
-            <input type="password" id="id_password" name="password" required>
-
-            <button type="submit">Login</button>
-
-            {% if request.GET.next %}
-                <input type="hidden" name="next" value="{{ request.GET.next }}">
-            {% endif %}
-
-            {% if messages %}
-                {% for message in messages %}
-                    <p style="color: red;">{{ message }}</p>
-                {% endfor %}
-            {% endif %}
+            <div class="form-group">
+                <input type="text" id="id_username_login" name="username" placeholder="имя пользователя" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="id_password_login" name="password" placeholder="пароль" autocomplete="current-password" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" name="login">Войти</button>
+                <a href="#" class="forgot-password">Забыли пароль?</a>
+            </div>    
         </form>
+
+
+        <!-- Форма регистрации -->
+        <form method="post" id="register-form" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" id="id_username_register" name="username" placeholder="имя пользователя" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="id_email_register" name="email" placeholder="you@astralinux.ru" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="id_password_register" name="password1" placeholder="пароль" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="id_confirm_password_register" name="password2" placeholder="подтвердите пароль" required>
+            </div>
+            <div class="form-group">
+                <small id="password-requirements" class="password-help">
+                    Пароль должен содержать:
+                    <ul>
+                        <li id="length-check" class="invalid">Минимум 8 символов</li>
+                        <li id="uppercase-check" class="invalid">Хотя бы одну заглавную букву</li>
+                        <li id="lowercase-check" class="invalid">Хотя бы одну строчную букву</li>
+                        <li id="number-check" class="invalid">Хотя бы одну цифру</li>
+                        <li id="special-check" class="invalid">Хотя бы один специальный символ (!@#$%^&*)</li>
+                    </ul>
+                </small>
+            </div>    
+            <div class="form-actions">
+                <button type="submit" class="btn-primary" name="register">Зарегистрироваться</button>
+            </div>
+        </form>
+
+
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const activeForm = "{{ active_form }}";
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const btnLogin = document.getElementById('login');
+        const btnRegister = document.getElementById('register');
+
+        if (activeForm === "register") {
+            btnRegister.checked = true;
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        } else {
+            btnLogin.checked = true;
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        }
+    });
+</script>
+<script src="{% static 'js/password-validation.js' %}"></script>
+<script src="{% static 'js/auth-switch.js' %}"></script>
 {% endblock %}

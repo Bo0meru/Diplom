@@ -1,0 +1,194 @@
+.auth-switch-slider {
+	display: flex;
+	position: relative;
+	width: 220px;
+	height: 50px;
+	background-color: #f0f4f8;
+	border-radius: 50px;
+	overflow: hidden;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	justify-content: center; /* Центрирование по горизонтали */
+	align-items: center; /* Центрирование по вертикали */
+	margin: 0 auto; /* Устанавливаем автоматические отступы */
+}
+
+.auth-option {
+	flex: 1;
+	text-align: center;
+	line-height: 50px;
+	font-size: 16px;
+	font-weight: 600;
+	color: #4269e2; /* Цвет текста по умолчанию */
+	cursor: pointer;
+	z-index: 2;
+	transition: color 0.3s ease;
+}
+
+#login:checked + label {
+	color: #ffffff; /* Цвет текста активной кнопки */
+}
+#register + label {
+	font-size: 13px; /* Установите желаемый размер шрифта */
+}
+#register:checked + label {
+	color: #ffffff; /* Цвет текста активной кнопки */
+}
+
+#login:not(:checked) + label {
+	color: #c98b6f; /* Цвет текста неактивной кнопки */
+}
+
+#register:not(:checked) + label {
+	color: #4269e2; /* Цвет текста неактивной кнопки */
+}
+
+#login:checked ~ .slider {
+	transform: translateX(0);
+	background-color: #c98b6f; /* Фон активной кнопки "Вход" */
+}
+
+#register:checked ~ .slider {
+	transform: translateX(100%);
+	background-color: #4269e2; /* Фон активной кнопки "Регистрация" */
+}
+
+.slider {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50%;
+	height: 100%;
+	background-color: #c98b6f;
+	border-radius: 50px;
+	transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Скрываем радиокнопки */
+input[type='radio'] {
+	display: none;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 60vh; /* Центрируем форму по высоте экрана */
+	width: 100%;
+	position: relative;
+	z-index: 2;
+	border: 1px solid #008602;
+}
+
+/* Карточка логина */
+.login-card {
+	background-color: #ffffff5e;
+	border-radius: 30px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	padding: 30px;
+	width: 350px;
+
+	text-align: center;
+}
+
+/* Логотип и заголовок */
+.logo_login {
+	width: 250px;
+	align-items: center;
+}
+h2 {
+	font-size: 24px;
+	color: rgba(110, 110, 110, 0.736);
+	margin-bottom: 20px;
+}
+
+/* Поля формы */
+.form-actions {
+	display: flex;
+	justify-content: space-between; /* Распределить элементы по краям */
+	align-items: center; /* Выравнивание по вертикали */
+	width: 100%;
+}
+
+.form-group {
+	margin-bottom: 10px;
+
+	color: rgba(110, 110, 110, 0.644);
+}
+input[type='text'],
+input[type='password'],
+input[type='email']
+{
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	padding: 15px;
+	border: 2px solid #00000086;
+	border-radius: 50px;
+	font-size: 16px;
+	margin-top: 10px;
+	transition: border-color 0.3s ease;
+}
+
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='email']:focus {
+	border-color: #4269e2; /*  Синий цвет при фокусе */
+}
+
+/* Кнопка отправки */
+.btn-primary {
+	background-color: #4269e2;
+	color: #ffffff;
+	padding: 15px;
+	border: none;
+	border-radius: 50px;
+	font-size: 18px;
+	cursor: pointer;
+	width: 50%;
+	margin-top: 20px;
+	transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+	background-color: #3459b8;
+}
+
+/* Ссылки */
+.forgot-password {
+	display: block;
+	margin-top: 15px;
+	font-size: 14px;
+	color: #4269e2;
+	text-decoration: none;
+}
+
+.forgot-password:hover {
+	text-decoration: underline;
+}
+
+/* Сообщения об ошибках */
+.error-message {
+	color: red;
+	font-size: 14px;
+	margin-top: 10px;
+}
+
+
+.password-help ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.password-help li {
+    color: red;
+    margin: 5px 0;
+}
+
+.password-help li.valid {
+    color: green;
+}
+
+.password-help {
+    display: block;
+}

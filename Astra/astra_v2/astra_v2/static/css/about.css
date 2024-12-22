@@ -1,0 +1,66 @@
+.about-container {
+	display: flex;
+	align-items: center; /* Центрирует элементы по вертикали */
+	justify-content: space-between; /* Распределяет текст и изображение */
+	gap: 10px; /* Расстояние между текстом и изображением */
+
+  color: rgba(75, 75, 75, 0.781);
+}
+
+.about-text {
+  font-size: 30px;
+	max-width: 70%; /* Ограничение ширины текста */
+
+  z-index: 2;
+  margin-left: 10%;
+}
+
+.about-image {
+	flex: 1; /* Изображение занимает оставшееся пространство */
+	text-align: center; /* Центрирует изображение */
+
+  z-index: 1;
+}
+
+.about-image img {
+	max-width: 77vh; /* Изображение адаптируется под контейнер */
+	height: auto; /* Сохраняет пропорции изображения */
+	border-radius: 10px; /* Скругление углов (опционально) */
+	
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column; /* Элементы располагаются друг под другом */
+        text-align: center; /* Текст и изображение выравниваются по центру */
+    }
+
+    .about-text
+     {
+        max-width: 100%; /* Элементы занимают всю ширину */
+        font-size: 8px;
+    }
+    .about-image
+      {
+        display: none; /* Элементы занимают всю ширину */
+    }
+}
+
+@media (max-width: 1700px) {
+    .about-container {
+        flex-direction: column; /* Элементы располагаются друг под другом */
+        text-align: center; /* Текст и изображение выравниваются по центру */
+    }
+
+    .about-text
+     {
+        max-width: 100%; /* Элементы занимают всю ширину */
+        font-size: 12px;
+        
+    }
+    .about-image
+      {
+        display: none; /* Элементы занимают всю ширину */
+    }
+
+}

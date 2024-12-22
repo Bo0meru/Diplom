@@ -1,61 +1,63 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astra V2</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>{% block title %}Astra V2{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    {% block extra_css %}{% endblock %}
+
 </head>
 <body>
-<div class="sidebar">
-    <div class="menu-section">
-        <div class="menu-item">
-            <div class="menu-header">Общедоступные</div>
-            <ul class="menu-list">
-                <li><a href="#about">О нас</a></li>
-                <li><a href="#history">История</a></li>
-            </ul>
+        <!-- Шапка -->
+    <header class="header">
+        <div class="container">
+            <!-- Логотип слева -->
+            <div class="logo">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'img/Astra-v-main.svg' %}" alt="Astra Logo">
+                </a>
+            </div>
+            <!-- Навигационные ссылки справа -->
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li><a href="{% url 'about' %}">о нас</a></li>
+                    <li><a href="#test">тест</a></li>
+                    <li><a href="{% url 'profile' %}">профиль</a></li>
+                    <li><a href="#services">служебное</a></li>
+                </ul>
+            </nav>
         </div>
-        {% comment %} {% if request.user.is_authenticated and request.user.groups.filter(name__in=["Администратор", "Методист", "Преподаватель"]).exists %} {% endcomment %}
-        <div class="menu-item">
-            <div class="menu-header">Для персонала</div>
-            <ul class="menu-list">
-                <li><a href="{% url 'questions' %}">Вопросы</a></li>
-                <li><a href="{% url 'documents' %}">Документы</a></li>
-            </ul>
-        </div>
-        {% comment %} {% endif %} {% endcomment %}
-    </div>
-</div>
-<div class="content">
-    <div class="main-container">
-        <div class="search-bar">
-
-        </div>
+    </header>
+    <main>
         {% block content %}
-        {% endblock %}
+        {% endblock %} 
+    </main>
+    <div class="background">
+        <div class="blue-circle"></div>
+        <div class="orange-circle"></div>
+        <div class="bottom-wave">
+            <svg class="bottom-wave" viewBox="0 0 1920 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M-780 163.473L-656.917 155.766C-533.833 148.059 -287.667 132.644 -41.5 109.117C204.667 85.59 450.833 54.7614 697 62.4685C943.167 70.1757 1189.33 116.824 1435.5 113.174C1681.67 109.117 1927.83 54.7614 2050.92 27.1779L2174 0V187H2050.92C1927.83 187 1681.67 187 1435.5 187C1189.33 187 943.167 187 697 187C450.833 187 204.667 187 -41.5 187C-287.667 187 -533.833 187 -656.917 187H-780V163.473Z"
+                    fill="#4269E2" fill-opacity="0.6" />
+            </svg>
+        </div>
+        <div class="corner-svg">
+            <svg class="corner-svg"viewBox="0 0 348 376" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" 
+                d="M588.293 2.11252C623.469 5.58058 658.372 12.5206 692.447 22.9363L1045.41 371.133C1056.29 405.062 1063.7 439.868 1067.65 474.993L588.293 2.11252ZM143.412 170.141C129.958 184.576 117.45 199.571 105.888 215.046L861.295 960.249C876.612 948.478 891.435 935.768 905.686 922.118L143.412 170.141ZM42.6503 324.868C50.6333 306.144 59.733 287.779 69.95 269.876L806.959 996.93C789.196 1007.39 770.958 1016.74 752.343 1024.97L42.6503 324.868ZM19.1879 392.005C13.0009 414.402 8.29666 437.121 5.07401 460.005L617.73 1064.39C640.569 1060.85 663.221 1055.84 685.531 1049.35L19.1879 392.005ZM9.45409 636.532C3.66613 606.37 0.483992 575.804 -0.089873 545.194L532.619 1070.71C502.005 1070.55 471.398 1067.78 441.16 1062.41L9.45409 636.532ZM54.5343 771.286C80.3357 823.817 115.254 872.983 159.273 916.407C203.292 959.832 252.928 994.078 305.805 1019.16L54.5343 771.286ZM949.418 874.976L189.955 125.772C205.11 112.952 220.812 101.107 236.978 90.2373L984.31 827.474C973.661 843.786 962.031 859.648 949.418 874.976ZM294.428 56.6285L1017.13 769.572C1026.37 750.598 1034.42 731.194 1041.28 711.47L352.197 31.6934C332.568 38.8218 313.275 47.1338 294.428 56.6285ZM423.104 11.3603C447.056 6.24739 471.293 2.78887 495.632 0.986032L1070.04 567.63C1068.56 591.991 1065.44 616.273 1060.65 640.293L423.104 11.3603Z" fill="#C24900" fill-opacity="0.6"/>
+            </svg>
+        </div>
     </div>
-</div>
+        
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var headers = document.querySelectorAll('.menu-header');
-    headers.forEach(function(header) {
-        header.addEventListener('click', function() {
-            var menuList = this.nextElementSibling;
-            if (menuList.style.display === 'block') {
-                menuList.style.display = 'none';
-            } else {
-                menuList.style.display = 'block';
-            }
-        });
-    });
-});
-</script>
-
-{% block extra_js %}
-{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </body>
 </html>

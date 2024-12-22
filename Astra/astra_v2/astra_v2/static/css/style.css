@@ -1,0 +1,72 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto Mono', monospace;
+	background-color: #cde0ff;
+	/*overflow: hidden;*/
+	position: relative;
+	height: 100%; /* Гарантируем, что фоновый блок занимает весь экран */
+	width: 100%;
+	overflow-x: hidden;
+}
+/**************************/
+/* Чистый весь background 
+/**************************/
+.background {
+    width: 100%;
+    min-height: 100vh; /* Используем минимальную высоту для адаптивности */
+    height: auto;
+    position: absolute; /* Исправляем положение */
+    top: 0;
+    left: 0;
+}
+
+
+.blue-circle {
+    width: 40vw;
+    height: 40vw;
+    background-color: rgba(66, 106, 226, 0.6);
+    border-radius: 50%;
+    position: fixed;
+    left: -30vw;
+    top: 4.5vh;
+    z-index: 1; /* Добавляем слой для упорядоченности */
+}
+
+.orange-circle {
+    width: 5vw;
+    height: 5vw;
+    background-color: rgba(194, 74, 0, 0.45);
+    border-radius: 50%;
+    position: fixed;
+    left: 1.5vw;
+    top: 10vh;
+    z-index: 2;
+
+}
+
+
+/* Нижний синий вектор */
+.bottom-wave {
+    position: fixed; /* Гарантируем, что всегда фиксирована */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1; /* Остальное на более высоком уровне */
+}
+
+.corner-svg {
+    position: fixed; /* Фиксируем элемент относительно экрана */
+    bottom: 0; /* Расположить элемент у нижнего края */
+    right: 0; /* Прижать к правому краю */
+    width: 30vw; /* Уменьшаем ширину для адаптивности */
+    height: auto; /* Автоматически подстраиваем высоту */
+    opacity: 0.7; /* Прозрачность для мягкости */
+    z-index: 0; /* Ставим ниже формы */
+		overflow: hidden;
+}
+
+
+/**************************/
+/* Чистый весь background */
+/**************************/

@@ -1,0 +1,132 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-bar form {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 0 4px 4px 0;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+.main-content .navigation {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.main-content .navigation .btn {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.main-content .navigation .btn:hover {
+    background-color: #0056b3;
+}
+
+#search-results {
+    display: flex;
+    justify-content: space-around;
+    overflow-x: hidden; /* Убирает горизонтальную прокрутку */
+}
+
+#available-questions,
+#available-documents,
+#selected-questions,
+#selected-documents {
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    margin: 0 10px;
+    text-align: left; /* Выравнивание текста по левой стороне */
+}
+
+.question,
+.document {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 4px;
+    cursor: move;
+    text-align: left; /* Выровнять текст по левой стороне */
+}
+
+.question a,
+.document a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.question a:hover,
+.document a:hover {
+    text-decoration: underline;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+    .search-bar form {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .search-bar input[type="text"] {
+        border-radius: 4px;
+        border-right: 1px solid #ccc;
+        margin-bottom: 10px;
+    }
+
+    .search-bar button {
+        border-radius: 4px;
+    }
+
+    #search-results {
+        flex-direction: column;
+    }
+
+    #available-questions,
+    #available-documents,
+    #selected-questions,
+    #selected-documents {
+        margin: 10px 0;
+    }
+}

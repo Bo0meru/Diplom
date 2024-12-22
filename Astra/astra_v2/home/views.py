@@ -1,5 +1,7 @@
-# home/views.py
 from django.shortcuts import render
 
-def index(request):
-    return render(request, 'home/index.html')
+def home(request):
+    return render(request, 'home/home.html', {'debug_message': 'Шаблон рендерится'})
+
+def about(request):
+    return render(request, 'home/about.html')
