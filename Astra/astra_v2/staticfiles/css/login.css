@@ -172,3 +172,23 @@ input[type='email']:focus {
 	font-size: 14px;
 	margin-top: 10px;
 }
+
+
+.password-help ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.password-help li {
+    color: red;
+    margin: 5px 0;
+}
+
+.password-help li.valid {
+    color: green;
+}
+
+.password-help {
+    display: block;
+}

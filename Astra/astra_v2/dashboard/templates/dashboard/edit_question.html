@@ -1,65 +1,73 @@
-{% extends 'home/base.html' %}
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_question.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Редактировать вопрос</h1>
-<form method="post" class="edit-form">
-    {% csrf_token %}
-    <div class="question-form">
-        {{ form.as_p }}
-    </div>
-    <h2>Ответы</h2>
-    <div class="answers-form">
-        {{ formset.management_form }}
-        {% for form in formset %}
-            <div class="answer-form">
-                {{ form.as_p }}
-                {% if form.instance.pk %}
-                    <p><a href="javascript:void(0);" class="delete-form" data-form-id="{{ form.prefix }}">Удалить</a></p>
-                {% endif %}
+<div class="edit-question-container">
+    <form method="post" id="edit-question-form">
+        {% csrf_token %}
+        <h2>Редактирование вопроса</h2>
+
+        <!-- Текст вопроса -->
+        <div class="question-text">
+            <label for="question-text" class="editable-label">Вопрос:</label>
+            <span class="editable-text" contenteditable="true" id="question-text">{{ question.text }}</span>
+            <input type="hidden" name="question_text" id="hidden-question-text" value="{{ question.text }}">
+        </div>
+
+        <!-- Варианты ответов -->
+        <h3>Варианты ответов</h3>
+        <div class="answer-container">
+            {% for answer in answers %}
+            <div class="answer-item">
+                <span class="editable-text answer-text" contenteditable="true" data-answer-id="{{ answer.id }}">
+                    {{ answer.text }}
+                </span>
+                <input type="hidden" name="answer_text_{{ answer.id }}" id="hidden-answer-text-{{ answer.id }}" value="{{ answer.text }}">
+                <label class="correct-label">
+                    <input type="checkbox" name="answer_correct_{{ answer.id }}" id="answer-correct-{{ answer.id }}" {% if answer.correct %}checked{% endif %}>
+                    Верный
+                </label>
             </div>
-        {% endfor %}
-    </div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+            {% endfor %}
+        </div>
+
+        <!-- Блок тегов -->
+        <div class="tags-container">
+            <h3>Метки документа</h3>
+            <div class="tags-grid">
+                {% for tag in all_tags %}
+                <div class="tag-item">
+                    <label>
+                        <input type="checkbox" name="tag_{{ tag.id }}" id="tag-{{ tag.id }}" {% if tag in question.tags.all %}checked{% endif %}>
+                        {{ tag.name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="buttons-container">
+            <button type="submit" class="btn-save">Сохранить</button>
+            <button type="button" class="btn-cancel" onclick="window.history.back();">Отмена</button>
+        </div>
+    </form>
+</div>
+
 <script>
-    document.querySelectorAll('.delete-form').forEach(button => {
-        button.addEventListener('click', function() {
-            var formId = this.getAttribute('data-form-id');
-            document.querySelector(`[name="${formId}-DELETE"]`).checked = true;
-            this.closest('.answer-form').style.display = 'none';
+    document.getElementById('edit-question-form').addEventListener('submit', function (event) {
+        // Передача текста вопроса в скрытое поле
+        document.getElementById('hidden-question-text').value = document.getElementById('question-text').innerText;
+
+        // Передача текста вариантов ответов в скрытые поля
+        document.querySelectorAll('.answer-text').forEach(function (element) {
+            const answerId = element.getAttribute('data-answer-id');
+            document.getElementById(`hidden-answer-text-${answerId}`).value = element.innerText;
         });
-    });
-
-    // Функция для автоматического изменения высоты textarea
-    function autoResizeTextarea(textarea) {
-        textarea.style.height = 'auto'; // Сброс высоты для правильного расчета scrollHeight
-        textarea.style.height = Math.min(textarea.scrollHeight, textarea.style.minHeight.replace('px', '')) + 'px'; // Установка высоты по содержимому или минимальной высоте
-    }
-
-    // Применение функции ко всем textarea при загрузке страницы и при вводе текста
-    document.querySelectorAll('textarea').forEach(textarea => {
-        autoResizeTextarea(textarea);
-        textarea.addEventListener('input', function() {
-            autoResizeTextarea(this);
-        });
-    });
-
-    // Инициализация select2 для тегов
-    $(document).ready(function() {
-        $('.django-select2').select2({
-            tags: true,
-            tokenSeparators: [',', ' '],
-            placeholder: 'Выберите или создайте метки',
-            allowClear: true,
-            width: '100%'  // Устанавливаем ширину на 100%
-        });
-
-        // Установите текущие метки в виджете select2
-        var initialTags = {{ tags | safe }};
-        $('.django-select2').val(initialTags).trigger('change');
     });
 </script>
 {% endblock %}

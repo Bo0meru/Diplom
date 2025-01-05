@@ -6,17 +6,32 @@ document.addEventListener('DOMContentLoaded', function () {
 	const loginForm = document.getElementById('login-form')
 	const registerForm = document.getElementById('register-form')
 
+	function showLoginForm() {
+		loginForm.style.display = 'block'
+		registerForm.style.display = 'none'
+	}
+
+	function showRegisterForm() {
+		loginForm.style.display = 'none'
+		registerForm.style.display = 'block'
+	}
+
 	btnLogin.addEventListener('change', function () {
 		if (btnLogin.checked) {
-			loginForm.style.display = 'block'
-			registerForm.style.display = 'none'
+			showLoginForm()
 		}
 	})
 
 	btnRegister.addEventListener('change', function () {
 		if (btnRegister.checked) {
-			loginForm.style.display = 'none'
-			registerForm.style.display = 'block'
+			showRegisterForm()
 		}
 	})
+
+	// Инициализация: показываем одну форму по умолчанию
+	if (btnLogin.checked) {
+		showLoginForm()
+	} else if (btnRegister.checked) {
+		showRegisterForm()
+	}
 })

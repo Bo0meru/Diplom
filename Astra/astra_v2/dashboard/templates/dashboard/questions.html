@@ -1,208 +1,36 @@
-{% extends 'dashboard/base_dash.html' %}
+{% extends "home/base.html" %}
+{% load static %}
 
-{% block title %}Вопросы и ответы{% endblock %}
-
-{% block dashboard_content %}
-<div style="display: flex;">
-    <div id="available-questions" style="flex: 1;">
-        <h2>Вопросы и ответы</h2>
-        {% if questions %}
-            {% for question in questions %}
-                <div id="question-{{ question.id }}" class="question" draggable="true" data-id="{{ question.id }}" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background-color: #f9f9f9; cursor: move;">
-                    <p><strong>Вопрос {{ question.id }}:</strong> <a href="{% url 'edit_question' question.id %}">{{ question.text }}</a></p>
-                    <p><strong>Теги:</strong> 
-                        {% for tag in question.tags.all %}
-                            {{ tag.name }}{% if not forloop.last %}, {% endif %}
-                        {% endfor %}
-                    </p>
-                    <ul>
-                    {% for answer in question.answers.all %}
-                        <li {% if answer.correct %}style="color: green;"{% endif %}>{{ answer.text }}</li>
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>Ничего не найдено.</p>
-        {% endif %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/questions.css' %}">
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/questions.js' %}"></script>
+{% endblock %}
+{% block content %}
+<div class="questions-container">
+    <h2>Банк вопросов</h2>
+    <div class="search-bar">
+        <input type="text" id="search-bar" placeholder="🔍 Поиск">
     </div>
-    <div id="selected-questions" style="flex: 1; border: 2px dashed #ccc; padding: 10px; background-color: #fafafa; min-height: 300px;">
-        <h2>Выбранные вопросы</h2>
+    <div class="question-list">
+        {% for question in questions %}
+        <div class="question-item">
+            <a href="{% url 'edit_question' question.pk %}">
+                <h3>Вопрос №{{ forloop.counter }}</h3>
+                <p>{{ question.text }}</p>
+                <ul>
+                    {% for answer in question.answers.all %}
+                    <li class="{% if answer.correct %}correct{% else %}incorrect{% endif %}">
+                        {{ answer.text }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </a>
+        </div>
+        {% empty %}
+        <p>Вопросы не найдены.</p>
+        {% endfor %}
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        function initializeDragAndDrop(itemClass, sourceContainerId, targetContainerId) {
-            const items = document.querySelectorAll(itemClass);
-            const sourceContainer = document.getElementById(sourceContainerId);
-            const targetContainer = document.getElementById(targetContainerId);
-            const exportBtn = document.getElementById('export-btn');
-
-            // Удаление предыдущих слушателей событий, если они есть
-            const newExportBtn = exportBtn.cloneNode(true);
-            exportBtn.parentNode.replaceChild(newExportBtn, exportBtn);
-
-            if (!items.length) {
-                console.log('Items not found:', itemClass);
-                return;
-            }
-            if (!sourceContainer || !targetContainer) {
-                console.log('Container not found:', sourceContainerId, targetContainerId);
-                return;
-            }
-
-            const originalPositions = Array.from(sourceContainer.children).map(child => child.id);
-            console.log('Original positions:', originalPositions);
-
-            items.forEach(item => {
-                item.addEventListener('dragstart', function(e) {
-                    e.dataTransfer.setData('text/plain', item.dataset.id);
-                    e.dataTransfer.effectAllowed = 'move';
-                    item.classList.add('dragging');
-                    console.log('Drag started:', item);
-                });
-
-                item.addEventListener('dragend', function(e) {
-                    item.classList.remove('dragging');
-                    console.log('Drag ended:', item);
-                });
-
-                item.addEventListener('dragenter', function(e) {
-                    e.preventDefault();
-                    console.log('Drag enter:', item);
-                });
-
-                item.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'move';
-                    console.log('Drag over:', item);
-                });
-
-                item.addEventListener('dragleave', function(e) {
-                    console.log('Drag leave:', item);
-                });
-            });
-
-            [sourceContainer, targetContainer].forEach(container => {
-                container.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'move';
-                    console.log('Drag over container:', container.id);
-                });
-
-                container.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    const id = e.dataTransfer.getData('text/plain');
-                    const item = document.querySelector(`${itemClass}[data-id="${id}"]`);
-                    console.log('Drop event:', item, 'in container:', container.id);
-                    if (item && !document.querySelector(`#${container.id} ${itemClass}[data-id="${id}"]`)) {
-                        const clonedItem = item.cloneNode(true);
-                        clonedItem.classList.remove('dragging');
-                        clonedItem.setAttribute('draggable', true);
-                        container.appendChild(clonedItem);
-                        item.remove();
-                        console.log('Item cloned and added to container, and original item removed:', container.id);
-
-                        initializeDragAndDrop(itemClass, sourceContainerId, targetContainerId);
-
-                        if (container.id === sourceContainerId) {
-                            const children = Array.from(container.children);
-                            children.sort((a, b) => originalPositions.indexOf(a.id) - originalPositions.indexOf(b.id));
-                            children.forEach(child => container.appendChild(child));
-                            console.log('Restored original order for source container:', originalPositions);
-                        }
-
-                        saveSelectedQuestions();
-                    }
-                });
-            });
-
-            newExportBtn.addEventListener('click', function() {
-                const selectedIds = Array.from(targetContainer.querySelectorAll(itemClass)).map(item => item.dataset.id);
-                const exportUrl = targetContainerId === 'selected-questions' ? '{% url "export_questions" %}' : '{% url "export_documents" %}';
-                fetch(exportUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'
-                    },
-                    body: JSON.stringify({ids: selectedIds})
-                })
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = targetContainerId === 'selected-questions' ? 'selected_questions.docx' : 'selected_documents.zip';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    console.log('File downloaded:', a.download);
-                })
-                .catch(error => console.error('Error:', error));
-            });
-        }
-
-        function saveSelectedQuestions() {
-            const selectedQuestions = Array.from(document.getElementById('selected-questions').children).map(item => item.dataset.id);
-            document.getElementById('selected-ids').value = selectedQuestions.join(',');
-            console.log('Selected questions saved to hidden field:', selectedQuestions);
-        }
-
-        function restoreSelectedQuestions() {
-            const selectedIdsValue = document.getElementById('selected-ids').value;
-            const selectedQuestions = selectedIdsValue ? selectedIdsValue.split(',') : [];
-            const availableQuestions = document.getElementById('available-questions');
-            const selectedContainer = document.getElementById('selected-questions');
-
-            selectedQuestions.forEach(id => {
-                const item = availableQuestions.querySelector(`.question[data-id="${id}"]`);
-                if (item) {
-                    const clonedItem = item.cloneNode(true);
-                    clonedItem.classList.remove('dragging');
-                    clonedItem.setAttribute('draggable', true);
-                    selectedContainer.appendChild(clonedItem);
-                    item.remove();
-                    console.log('Restored selected question:', id);
-                }
-            });
-
-            initializeDragAndDrop('.question', 'available-questions', 'selected-questions');
-        }
-
-        function performSearch(query) {
-            const selectedIdsValue = document.getElementById('selected-ids').value;
-            fetch(`{% url 'questions' %}?q=${query}&selected_ids=${selectedIdsValue}`, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('search-results').innerHTML = data;
-                restoreSelectedQuestions();
-            })
-            .catch(error => console.error('Error:', error));
-        }
-
-        if (document.getElementById('selected-questions')) {
-            console.log('Initializing drag and drop for questions');
-            initializeDragAndDrop('.question', 'available-questions', 'selected-questions');
-            restoreSelectedQuestions();
-        } else if (document.getElementById('selected-documents')) {
-            console.log('Initializing drag and drop for documents');
-            initializeDragAndDrop('.document', 'available-documents', 'selected-documents');
-        }
-
-        document.getElementById('search-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            saveSelectedQuestions();
-            this.submit();
-        });
-    });
-</script>
 {% endblock %}

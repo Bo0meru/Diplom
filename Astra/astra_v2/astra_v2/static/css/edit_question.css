@@ -1,0 +1,154 @@
+/* Контейнер редактирования */
+.edit-question-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: relative;
+    z-index: 2;
+}
+
+/* Заголовок */
+.edit-question-container h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Текст вопроса */
+.question-text {
+    margin-bottom: 20px;
+}
+
+.question-text .editable-text {
+    display: block;
+    font-size: 20px;
+    color: #333;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 5px 0;
+    border-bottom: 1px dashed #ccc;
+    transition: border-color 0.3s;
+}
+
+.question-text .editable-text:focus {
+    border-bottom: 1px solid #007bff;
+}
+
+/* Варианты ответов */
+.answer-container {
+    margin-bottom: 30px;
+}
+
+.answer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px dashed #ccc;
+}
+
+.answer-item .answer-text {
+    flex: 1;
+    margin-right: 15px;
+    font-size: 18px;
+    color: #555;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 5px 0;
+}
+
+.answer-item .answer-text:focus {
+    border-bottom: 1px solid #007bff;
+}
+
+.correct-label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+/* Теги */
+.tags-container {
+    background-color: rgba(240, 248, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.tags-container h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+.tags-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);;
+    gap: 15px;
+}
+
+.tag-item {
+    display: flex;
+    align-items: center;
+}
+
+.tag-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Кнопки */
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons-container button {
+    width: 45%;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttons-container .btn-save {
+    background-color: #4caf50;
+}
+
+.buttons-container .btn-save:hover {
+    background-color: #45a049;
+}
+
+.buttons-container .btn-cancel {
+    background-color: #f44336;
+}
+
+.buttons-container .btn-cancel:hover {
+    background-color: #e53935;
+}
+
+/* Стили для прокрутки */
+.tags-container::-webkit-scrollbar {
+    width: 8px; /* Ширина скроллбара */
+}
+
+.tags-container::-webkit-scrollbar-thumb {
+    background: #007bff; /* Цвет ползунка */
+    border-radius: 4px; /* Закругленные края */
+}
+
+.tags-container::-webkit-scrollbar-track {
+    background: #e0e0e0; /* Цвет фона скроллбара */
+}

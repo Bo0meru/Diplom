@@ -17,3 +17,5 @@ def check_user_access(request):
 
     # Если пользователь не аутентифицирован, доступ закрыт
     return {'has_service_access': False}
+# PostgreSQL 
+# Passwd: 4erevi4ki

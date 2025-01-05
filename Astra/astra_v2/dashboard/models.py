@@ -13,7 +13,11 @@ class Tag(models.Model):
 class Question(models.Model):
     text = models.TextField(verbose_name="Текст вопроса")
     date_added = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления")
+    last_updated = models.DateTimeField(auto_now=True, verbose_name="Дата последнего изменения")
     tags = models.ManyToManyField(Tag, blank=True, related_name='questions', verbose_name="Теги")
+
+    class Meta:
+        ordering = ['id']  # Сортировка по ID
 
     def __str__(self):
         return self.text

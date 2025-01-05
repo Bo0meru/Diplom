@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'img/at_favicon.ico' %}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
     {% block extra_css %}{% endblock %}
-
+    {% block extra_js %}{% endblock %}
 </head>
 <body>
         <!-- Шапка -->
@@ -34,7 +34,7 @@
                         <li class="dropdown">
                             <a href="#services" class="dropbtn">служебное</a>
                                 <div class="dropdown-content">
-                                    <a href="{% url 'dashboard' %}">тесты</a>
+                                    <a href="{% url 'questions' %}">тесты</a>
                                     <a href="#documents">документы</a>
                                     <a href="#exports">выгрузка</a>
                                 </div>

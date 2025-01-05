@@ -16,3 +16,6 @@ git push origin <branch_name> ИЛИ git push
 Замените <branch_name> на название вашей ветки, например, main или master. Если вы работаете с основной веткой и хотите отправить изменения туда, то используйте:
 
 git push origin main
+
+PostgreSQL 
+Passwd: 4erevi4ki
