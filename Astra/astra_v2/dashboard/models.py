@@ -33,10 +33,12 @@ class Answer(models.Model):
 from django.db import models
 
 class Document(models.Model):
-    title = models.CharField(max_length=200)
-    file = models.FileField(upload_to='documents/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    tags = models.ManyToManyField(Tag)
+    title = models.CharField(max_length=200, verbose_name="Название документа")
+    description = models.TextField(verbose_name="Описание", blank=True)
+    file = models.FileField(upload_to="documents/", verbose_name="Файл")
+    tags = models.ManyToManyField(Tag, related_name="documents", verbose_name="Метки")
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    date_updated = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
 
     def __str__(self):
         return self.title

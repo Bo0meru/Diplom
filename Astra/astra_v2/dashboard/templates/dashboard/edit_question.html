@@ -3,6 +3,16 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/edit_question.css' %}">
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/delete_answers_edit_qustions.js' %}"></script>
+<script src="{% static 'js/edit_question_name.js' %}"></script>
+<script src="{% static 'js/edit_answers_edit_question.js' %}"></script>
+<script src="{% static 'js/search_tags.js' %}"></script>
+<script src="{% static 'js/clear_tags_for_question.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -10,7 +20,14 @@
     <form method="post" id="edit-question-form">
         {% csrf_token %}
         <h2>Редактирование вопроса</h2>
-
+               <!-- Сообщения -->
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p class="message {{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %} 
         <!-- Текст вопроса -->
         <div class="question-text">
             <label for="question-text" class="editable-label">Вопрос:</label>
@@ -19,55 +36,65 @@
         </div>
 
         <!-- Варианты ответов -->
-        <h3>Варианты ответов</h3>
+        <div class = "new-answer-btn"> 
+            <h3>Варианты ответов</h3>
+            <button type="button" id="add-answer-btn" class="btn-add-answer">Добавить ответ</button>
+        </div>    
         <div class="answer-container">
             {% for answer in answers %}
-            <div class="answer-item">
+            <div class="answer-item" id="answer-{{ answer.id }}">
                 <span class="editable-text answer-text" contenteditable="true" data-answer-id="{{ answer.id }}">
                     {{ answer.text }}
                 </span>
                 <input type="hidden" name="answer_text_{{ answer.id }}" id="hidden-answer-text-{{ answer.id }}" value="{{ answer.text }}">
                 <label class="correct-label">
-                    <input type="checkbox" name="answer_correct_{{ answer.id }}" id="answer-correct-{{ answer.id }}" {% if answer.correct %}checked{% endif %}>
+                    <input type="checkbox" name="answer_correct_{{ answer.id }}" {% if answer.correct %}checked{% endif %}>
                     Верный
                 </label>
+                <button type="button" class="btn-delete-answer" data-answer-id="{{ answer.id }}">Удалить</button>
+            </div>
+            {% endfor %}
+            <!-- Поля для новых ответов -->
+            <div id="new-answers-container">
+            </div>
+            
+            <input type="hidden" name="deleted_answers" id="deleted-answers">
+        </div>
+
+
+        <!-- Блок тегов -->
+<div class="tags-container">
+        <div class="tags-header">
+            <h2>Метки</h2>
+            <div class="tags-search-bar-container">
+                <input
+                    type="text"
+                    id="tags-search-bar"
+                    class="tags-search-bar"
+                    placeholder="🔍 Поиск по меткам..."
+                />
+                <button id="clearr-tags" class="clear-tags-button" type="button">Очистить</button>
+            </div>
+        </div>
+        <div id="tags-grid" class="tags-grid">
+            {% for tag in all_tags %}
+            <div class="tag-item">
+                    <label>
+                        <input type="checkbox" name="tags" value="{{ tag.id }}"
+                            {% if tag in question.tags.all %}checked{% endif %}>
+                        {{ tag.name }}
+                    </label>
             </div>
             {% endfor %}
         </div>
-
-        <!-- Блок тегов -->
-        <div class="tags-container">
-            <h3>Метки документа</h3>
-            <div class="tags-grid">
-                {% for tag in all_tags %}
-                <div class="tag-item">
-                    <label>
-                        <input type="checkbox" name="tag_{{ tag.id }}" id="tag-{{ tag.id }}" {% if tag in question.tags.all %}checked{% endif %}>
-                        {{ tag.name }}
-                    </label>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
+    </div>
 
         <!-- Кнопки -->
         <div class="buttons-container">
-            <button type="submit" class="btn-save">Сохранить</button>
             <button type="button" class="btn-cancel" onclick="window.history.back();">Отмена</button>
+            <button type="submit" class="btn-save">Сохранить</button>
         </div>
     </form>
 </div>
 
-<script>
-    document.getElementById('edit-question-form').addEventListener('submit', function (event) {
-        // Передача текста вопроса в скрытое поле
-        document.getElementById('hidden-question-text').value = document.getElementById('question-text').innerText;
-
-        // Передача текста вариантов ответов в скрытые поля
-        document.querySelectorAll('.answer-text').forEach(function (element) {
-            const answerId = element.getAttribute('data-answer-id');
-            document.getElementById(`hidden-answer-text-${answerId}`).value = element.innerText;
-        });
-    });
-</script>
 {% endblock %}

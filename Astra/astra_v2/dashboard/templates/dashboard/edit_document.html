@@ -1,26 +1,71 @@
-{% extends 'home/base.html' %}
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/edit_document.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Редактировать документ</h1>
-<form method="post" enctype="multipart/form-data" class="edit-form">
-    {% csrf_token %}
-    <div class="document-form">
-        {{ form.as_p }}
-    </div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<div class="edit-document-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Редактирование документа</h2>
+
+        <!-- Название документа -->
+        <div class="document-title">
+            <label for="document-title">Название:</label>
+            <input type="text" id="document-title" name="document_title" value="{{ document.title }}">
+        </div>
+
+        <!-- Описание документа -->
+        <div class="document-description">
+            <label for="document-description">Описание:</label>
+            <textarea id="document-description" name="document_description">{{ document.description }}</textarea>
+        </div>
+
+        <!-- Файл документа -->
+        <div class="document-file">
+            <label for="document-file">Файл:</label>
+            <input type="file" id="document-file" name="document_file">
+            <p>Текущий файл: <a href="{{ document.file.url }}">{{ document.file.name }}</a></p>
+        </div>
+
+        <!-- Блок тегов -->
+        <div class="tags-container">
+            <h3>Метки документа</h3>
+            <input type="text" id="tags-search-bar" class="tags-search-bar" placeholder="Поиск по меткам...">
+            <div id="tags-grid" class="tags-grid">
+                {% for tag in all_tags %}
+                <div class="tag-item">
+                    <label>
+                        <input type="checkbox" name="tags" value="{{ tag.id }}" {% if tag in question.tags.all %}checked{% endif %}>
+                        {{ tag.name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="buttons-container">
+            <button type="button" class="btn-cancel" onclick="window.history.back();">Отмена</button>
+            <button type="submit" class="btn-save">Сохранить</button>
+        </div>
+    </form>
+</div>
 <script>
-    $(document).ready(function() {
-        $('.django-select2').select2({
-            tags: true,
-            tokenSeparators: [',', ' '],
-            placeholder: 'Выберите или создайте метки',
-            allowClear: true,
-            width: '100%'  // Устанавливаем ширину на 100%
-        });
+document.getElementById("tags-search-bar").addEventListener("input", function () {
+    const searchQuery = this.value.toLowerCase();
+    const tags = document.querySelectorAll("#tags-grid .tag-item");
+
+    tags.forEach((tag) => {
+        const tagText = tag.innerText.toLowerCase();
+        if (tagText.includes(searchQuery)) {
+            tag.style.display = "flex";
+        } else {
+            tag.style.display = "none";
+        }
     });
+});
 </script>
 {% endblock %}

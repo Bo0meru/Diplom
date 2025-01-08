@@ -6,7 +6,6 @@
 	  border-radius: 30px;
 	  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     z-index: 1999;
-    border: 1px solid #42e24a;
     position: relative;
     z-index: 1; /* Убедитесь, что форма находится выше других элементов */
 }

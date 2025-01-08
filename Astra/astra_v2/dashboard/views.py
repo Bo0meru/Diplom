@@ -9,6 +9,9 @@ from django.db.models import Prefetch
 from .models import Question, Answer
 from django.shortcuts import get_object_or_404
 from django.forms import inlineformset_factory
+from django.db.models import Exists, OuterRef
+from django.db.models import Q, F, Value, BooleanField, Case, When
+from django.contrib import messages
 
 
 # Инициализация IDS
@@ -52,69 +55,70 @@ def questions(request):
         ).distinct()
         if query else question_queryset
     )
+    all_tags = Tag.objects.all()
     return render(request, 'dashboard/questions.html', {
         'questions': questions,
-        'current_page': 'questions'
+        'current_page': 'questions',
+        "all_tags": all_tags,
     })
 
 
 @login_required
 def documents(request):
-    access_redirect = check_access_or_redirect(request)
-    if access_redirect:
-        return access_redirect
+    documents = Document.objects.order_by("id")
+    return render(request, "dashboard/documents.html", {"documents": documents})
 
-    query = request.GET.get('q')
-    selected_ids = request.GET.get('selected_ids', '').split(',')
-    documents = (
-        Document.objects.filter(
-            Q(title__icontains=query) | Q(tags__name__icontains=query)
-        ).distinct()
-        if query else Document.objects.all()
-    )
-    return render(request, 'dashboard/documents.html', {
-        'documents': documents,
-        'selected_ids': selected_ids,
-        'current_page': 'documents'
-    })
+@login_required
+def edit_document(request, pk):
+    document = get_object_or_404(Document, pk=pk)
+    all_tags = Tag.objects.all()
+
+    if request.method == "POST":
+        document.title = request.POST.get("document_title")
+        document.description = request.POST.get("document_description")
+        if "document_file" in request.FILES:
+            document.file = request.FILES["document_file"]
+        selected_tags = [tag for tag_id, tag in enumerate(all_tags) if f"tag_{tag.id}" in request.POST]
+        document.tags.set(selected_tags)
+        document.save()
+        return redirect("documents")
+
+    return render(request, "dashboard/edit_document.html", {"document": document, "all_tags": all_tags})
 
 
 @login_required
 def create_question(request):
-    access_redirect = check_access_or_redirect(request)
-    if access_redirect:
-        return access_redirect
+    all_tags = Tag.objects.all()  # Получить все теги
 
-    if request.method == 'POST':
-        tags = request.POST.getlist('tags')
-        new_tags = []
-        for tag in tags:
-            if not tag.isdigit():
-                tag_obj, created = Tag.objects.get_or_create(name=tag)
-                new_tags.append(str(tag_obj.id))
-            else:
-                new_tags.append(tag)
+    if request.method == "POST":
+        # Создание нового вопроса
+        question_text = request.POST.get("question_text", "").strip()
+        if not question_text:
+            messages.error(request, "Текст вопроса не может быть пустым.")
+            return redirect("create_question")
 
-        request.POST = request.POST.copy()
-        request.POST.setlist('tags', new_tags)
+        question = Question.objects.create(text=question_text)
 
-        form = QuestionForm(request.POST)
-        formset = AnswerFormSet(request.POST)
+        # Добавление тегов
+        selected_tags = request.POST.getlist("tags")
+        question.tags.set(selected_tags)
 
-        if form.is_valid() and formset.is_valid():
-            question = form.save()
-            formset.instance = question
-            formset.save()
-            ids.log_event(request.user.username, "Создание нового вопроса")
-            return redirect('dashboard')
-    else:
-        form = QuestionForm()
-        formset = AnswerFormSet()
+        # Добавление новых ответов
+        new_answers = request.POST.getlist("new_answers[]")
+        new_correct_flags = request.POST.getlist("new_correct_answers[]")
+        for index, text in enumerate(new_answers):
+            correct = new_correct_flags[index] if index < len(new_correct_flags) else "false"
+            Answer.objects.create(
+                question=question,
+                text=text.strip(),
+                correct=(correct == "true")
+            )
 
-    return render(request, 'dashboard/create_question.html', {
-        'form': form,
-        'formset': formset,
-        'current_page': 'create_question'
+        messages.success(request, "Вопрос успешно создан.")
+        return redirect("questions")
+
+    return render(request, "dashboard/create_question.html", {
+        "all_tags": all_tags,
     })
 
 
@@ -142,9 +146,20 @@ def edit_question(request, pk):
     # Получение вопроса и связанных данных
     question = get_object_or_404(Question, pk=pk)
     answers = question.answers.all()
-    all_tags = Tag.objects.all()  # Получить все доступные теги
+    all_tags = Tag.objects.all()
+
+    # Разделение активных и неактивных тегов
+    all_tags = Tag.objects.annotate(
+        is_active=Exists(question.tags.filter(id=OuterRef('id')))
+    ).order_by('-is_active', 'name')  # Сначала активные, затем по алфавиту
 
     if request.method == "POST":
+        # Удаление ответов
+        deleted_answers = request.POST.get("deleted_answers", "").split(",")
+        for answer_id in deleted_answers:
+            if answer_id:
+                Answer.objects.filter(id=answer_id).delete()
+
         # Обновление текста вопроса
         question_text = request.POST.get("question_text", "").strip()
         if question_text:
@@ -152,24 +167,51 @@ def edit_question(request, pk):
         question.save()
 
         # Обновление тегов
-        selected_tags = []
-        for tag in all_tags:
-            if request.POST.get(f"tag_{tag.id}", None):
-                selected_tags.append(tag)
+        selected_tags = request.POST.getlist("tags")
         question.tags.set(selected_tags)
 
-        # Обновление ответов
+        # Обновление существующих ответов
         for answer in answers:
             answer_text = request.POST.get(f"answer_text_{answer.id}", "").strip()
-            answer_correct = request.POST.get(f"answer_correct_{answer.id}", None) is not None
-            if answer_text:  # Если текст ответа не пустой
+            answer_correct = f"answer_correct_{answer.id}" in request.POST
+            if answer_text:
                 answer.text = answer_text
                 answer.correct = answer_correct
                 answer.save()
 
+        # Добавление новых ответов
+        new_answers = request.POST.getlist("new_answers[]")
+        new_correct_flags = request.POST.getlist("new_correct_answers[]")
+        for index, text in enumerate(new_answers):
+            correct = new_correct_flags[index] if index < len(new_correct_flags) else "false"
+            Answer.objects.create(
+                question=question,
+                text=text.strip(),
+                correct=(correct == "true")
+            )
+
+        # Проверка: как минимум два ответа
+        updated_answers = question.answers.all()
+        if len(updated_answers) < 2:
+            messages.error(request, "У вопроса должно быть как минимум два ответа.")
+            return render(request, "dashboard/edit_question.html", {
+                "question": question,
+                "answers": answers,
+                "all_tags": all_tags,
+            })
+
+        # Проверка: минимум один ответ верный
+        if not updated_answers.filter(correct=True).exists():
+            messages.error(request, "У вопроса должен быть как минимум один верный ответ.")
+            return render(request, "dashboard/edit_question.html", {
+                "question": question,
+                "answers": answers,
+                "all_tags": all_tags,
+            })
+
+        messages.success(request, "Изменения успешно сохранены.")
         return redirect("questions")
 
-    # Рендер страницы редактирования
     return render(request, "dashboard/edit_question.html", {
         "question": question,
         "answers": answers,

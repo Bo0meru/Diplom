@@ -1,140 +1,259 @@
+/* Стили ссылок */
 a {
     text-decoration: none;
 }
 
-
-
+/* Поле поиска */
 .search-bar {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 20px;
-	
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-.search-bar input[type='text'] {
-	width: 100%;
-	max-width: 600px;
-	padding: 10px;
-	border: 1px solid #ccc;
-	border-radius: 25px;
-	font-size: 16px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-	background-color: #ffffff5e;
+.search-bar input[type="text"] {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff5e;
 }
 
-.search-bar input[type='text']:focus {
-	outline: none;
-	border-color: #007bff;
+.search-bar input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff;
 }
 
+.create-question-button {
+    width: 15%;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+		margin-left: 10px;
+		text-align: center;
+
+}
+
+.create-question-button{
+    background-color: #c98b6f;
+}
+
+.create-question-button:hover {
+    background-color: #f5b090;
+}	
+
+
+.content-container {
+    display: flex;
+    gap: 20px; /* Отступ между блоками */
+    max-width: 1600px;
+    margin: 0 auto;
+    align-items: flex-start; /* Выравнивание по верху */
+		
+}
+
+/* Блок вопросов */
 .questions-container {
-	background-color: #ffffff5e;
-	border-radius: 30px;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-	max-width: 1000px;
-	margin: 0 auto;
-	padding: 20px;
-	overflow: hidden;
-	z-index: 2;
-	position: relative;
-	
-
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
 }
 
 .question-list {
-	max-height: 540px;
-	overflow-y: auto;
-	padding-right: 10px; /* Убираем обрезание текста за scrollbar */
-
+    max-height: 540px;
+    overflow-y: auto;
+    padding-right: 10px; /* Убираем обрезание текста за scrollbar */
 }
 
 .question-item {
-	padding: 15px;
-	margin-bottom: 15px;
-	border-radius: 10px;
-	background-color: #f9f9f969;
-	border: 1px solid #e0e0e0;
-	transition: box-shadow 0.3s;
-	
-
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #f9f9f969;
+    border: 1px solid #e0e0e0;
+    transition: box-shadow 0.3s;
 }
 
 .question-item:hover {
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	background-color: #f0f8ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f0f8ff;
 }
 
 .question-item h3 {
-	font-size: 20px;
-
-	margin-bottom: 10px;
-	color: rgba(110, 110, 110, 0.644);
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: rgba(110, 110, 110, 0.644);
 }
 
 .questions-container h2 {
-	text-align: center;
-	font-size: 24px;
-	color: rgba(110, 110, 110, 0.644);
+    text-align: center;
+    font-size: 24px;
+    color: rgba(110, 110, 110, 0.644);
 }
 
 .question-item p {
-	font-size: 16px;
-	color: rgba(110, 110, 110, 0.644);
-	margin-bottom: 10px;
+    font-size: 16px;
+    color: rgba(110, 110, 110, 0.644);
+    margin-bottom: 10px;
 }
 
 .question-item ul {
-	list-style-type: none;
-	padding-left: 0;
-	
+    list-style-type: none;
+    padding-left: 0;
 }
 
 .question-item li {
-	font-size: 16px;
-	margin-bottom: 5px;
-	
+    font-size: 16px;
+    margin-bottom: 5px;
 }
 
 .question-item li.correct {
-	color: #317e33a4;
-	font-weight: bold;
+    color: #317e33a4;
+    font-weight: bold;
 }
 
 .question-item li.incorrect {
-	color: #c03228a8;
-	font-weight: bold;
+    color: #c03228a8;
+    font-weight: bold;
 }
 
 /* Стили для прокрутки */
 .question-list::-webkit-scrollbar {
-	width: 10px;
+    width: 10px;
 }
 
 .question-list::-webkit-scrollbar-thumb {
-	background: #007bff;
-	border-radius: 10px;
+    background: #007bff;
+    border-radius: 10px;
 }
 
 .question-list::-webkit-scrollbar-track {
-	background: #e0e0e0;
-	border-radius: 10px;
+    background: #e0e0e0;
+    border-radius: 10px;
 }
 
-/* Адаптивные стили */
-@media (max-width: 768px) {
-	.questions-container {
-		padding: 15px;
-	}
 
-	.question-item h3 {
-		font-size: 18px;
-	}
+/* Блок меток */
+.tags-container {
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
+		
+}
 
-	.question-item p {
-		font-size: 14px;
-	}
+.tags-header {
+    position: relative;
 
-	.question-item li {
-		font-size: 14px;
-	}
+    z-index: 2;
+    background-color: #ffffff00;
+    padding: 10px;
+
+}
+
+.tags-header h2 {
+    text-align: center;
+    font-size: 24px;
+    color: rgba(110, 110, 110, 0.644);
+		
+}
+
+.tags-search-bar-container {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.tags-search-bar {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff5e;
+}
+
+.tags-search-bar:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.tags-grid {
+    max-height: 480px; /* Высота с учетом фиксированного заголовка и поиска */
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 3 столбца */
+    gap: 15px;
+    padding: 20px;
+		color: rgba(110, 110, 110, 0.644);
+
+}
+
+/* Элементы меток */
+.tag-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.tag-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Стили для прокрутки */
+.tags-grid::-webkit-scrollbar {
+    width: 10px;
+		
+}
+
+.tags-grid::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+		max-height: 100px;
+}
+
+.tags-grid::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+
+.clear-tags-button {
+    width: 30%;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+		margin-left: 10px;
+
+}
+
+.clear-tags-button{
+    background-color: #4269e2;
+}
+
+.clear-tags-button:hover {
+    background-color: #5b81f1;
 }

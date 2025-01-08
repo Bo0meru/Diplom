@@ -8,29 +8,126 @@
 <script src="{% static 'js/questions.js' %}"></script>
 {% endblock %}
 {% block content %}
-<div class="questions-container">
-    <h2>Банк вопросов</h2>
-    <div class="search-bar">
-        <input type="text" id="search-bar" placeholder="🔍 Поиск">
-    </div>
-    <div class="question-list">
-        {% for question in questions %}
-        <div class="question-item">
-            <a href="{% url 'edit_question' question.pk %}">
-                <h3>Вопрос №{{ forloop.counter }}</h3>
-                <p>{{ question.text }}</p>
-                <ul>
-                    {% for answer in question.answers.all %}
-                    <li class="{% if answer.correct %}correct{% else %}incorrect{% endif %}">
-                        {{ answer.text }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </a>
+<div class="content-container">
+    <!-- Блок вопросов -->
+    <div class="questions-container">
+        <h2>Банк вопросов</h2>
+        <div class="search-bar">
+            <input type="text" id="search-bar" placeholder="🔍 Поиск">
+            <a href="{% url 'create_question' %}" class="create-question-button">Создать вопрос</a>
         </div>
-        {% empty %}
-        <p>Вопросы не найдены.</p>
-        {% endfor %}
+        <div class="question-list">
+            {% for question in questions %}
+            <div class="question-item" data-tags="{% for tag in question.tags.all %}{{ tag.id }} {% endfor %}{% if not question.tags.exists %}none{% endif %}">
+                <a href="{% url 'edit_question' question.pk %}">
+                    <h3>Вопрос №{{ forloop.counter }}</h3>
+                    <p>{{ question.text }}</p>
+                    <ul>
+                        {% for answer in question.answers.all %}
+                        <li class="{% if answer.correct %}correct{% else %}incorrect{% endif %}">
+                            {{ answer.text }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </a>
+            </div>
+            {% empty %}
+            <p>Вопросы не найдены.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Блок меток -->
+    <div class="tags-container">
+        <div class="tags-header">
+            <h2>Метки</h2>
+            <div class="tags-search-bar-container">
+                <input
+                    type="text"
+                    id="tags-search-bar"
+                    class="tags-search-bar"
+                    placeholder="🔍 Поиск по меткам..."
+                />
+                <button id="clear-tags" class="clear-tags-button">Очистить</button>
+            </div>
+        </div>
+        <div id="tags-grid" class="tags-grid">
+            <!-- Метка "Без метки" -->
+            <div class="tag-item">
+                <label>
+                    <input type="checkbox" name="tag_none" id="tag_none">
+                    Без метки
+                </label>
+            </div>
+            {% for tag in all_tags %}
+            <div class="tag-item">
+                <label>
+                    <input type="checkbox" name="tag_{{ tag.id }}" id="tag_{{ tag.id }}">
+                    {{ tag.name }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const searchBar = document.getElementById("tags-search-bar");
+    if (searchBar) {
+        searchBar.addEventListener("input", function () {
+            const searchQuery = this.value.toLowerCase();
+            const tags = document.querySelectorAll(".tags-grid .tag-item");
+
+            tags.forEach(tag => {
+                const tagText = tag.innerText.toLowerCase();
+                tag.style.display = tagText.includes(searchQuery) ? "block" : "none";
+            });
+        });
+    }
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tagCheckboxes = document.querySelectorAll(".tag-item input[type='checkbox']");
+    const clearTagsButton = document.getElementById("clear-tags");
+
+    function clearAllTags() {
+        tagCheckboxes.forEach(checkbox => {
+            checkbox.checked = false; // Снять выделение
+        });
+        filterQuestions(); // Обновить отображение вопросов
+    }
+
+    // Обработчик кнопки очистки
+    if (clearTagsButton) {
+        clearTagsButton.addEventListener("click", clearAllTags);
+    }
+
+    // Логика фильтрации вопросов (осталась как в прошлом коде)
+    function filterQuestions() {
+        const selectedTags = Array.from(tagCheckboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.id.replace("tag_", ""));
+
+        const questions = document.querySelectorAll(".question-item");
+        questions.forEach(question => {
+            const questionTags = question.getAttribute("data-tags").trim().split(/\s+/);
+            const hasMatch = selectedTags.includes("none") && questionTags.includes("none") ||
+                             selectedTags.some(tag => questionTags.includes(tag));
+
+            const isVisible = selectedTags.length === 0 || hasMatch;
+            question.style.display = isVisible ? "block" : "none";
+        });
+    }
+
+    tagCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", filterQuestions);
+    });
+
+    // Инициализация фильтрации при загрузке страницы
+    filterQuestions();
+});
+
+</script>
 {% endblock %}

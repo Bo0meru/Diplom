@@ -25,4 +25,6 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'uploaded_at')
+    list_display = ("id", "title", "date_created", "date_updated")  # Убедитесь, что указаны существующие поля
+    list_filter = ("tags", "date_created")
+    search_fields = ("title", "description")

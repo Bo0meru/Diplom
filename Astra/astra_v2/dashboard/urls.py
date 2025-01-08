@@ -34,8 +34,9 @@ urlpatterns = [
     path('questions/', views.questions, name='questions'),
     path('questions/new/', views.create_question, name='create_question'),
     path('documents/', views.documents, name='documents'),
-    path('documents/upload/', views.upload_document, name='upload_document'),
+    path("documents/<int:pk>/edit/", views.edit_document, name="edit_document"),
     path('questions/<int:pk>/edit/', views.edit_question, name='edit_question'),
+    path('questions/create/', views.create_question, name='create_question'),
 ] 
 
 if settings.DEBUG:

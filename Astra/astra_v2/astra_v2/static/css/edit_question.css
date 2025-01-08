@@ -1,26 +1,68 @@
+/* Общие стили */
+a {
+    text-decoration: none;
+}
+/* Устанавливаем общий цвет текста для всей страницы */
+.edit-question-container {
+    color: rgba(110, 110, 110, 0.644);
+}
+
+
+.tags-container .tag-item input[type="checkbox"] + label {
+    color: initial; /* Возвращаем к начальному цвету */
+}
+
 /* Контейнер редактирования */
 .edit-question-container {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 30px;
+    padding: 20px;
     background-color: #ffffff5e;
     border-radius: 30px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      position: relative;
+    position: relative;
     z-index: 2;
+    overflow: hidden;
+    max-height: calc(100vh - 40px); /* Высота относительно экрана */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Заголовок */
 .edit-question-container h2 {
     text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
-    color: #333;
+    font-size: 24px;
+    color: rgba(110, 110, 110, 0.644);
+}
+.new-answer-btn {
+    display: flex;
+    justify-content: flex-start; /* Располагает элементы рядом */
+    align-items: center; /* Выравнивание по вертикали */
+    gap: 10px; /* Расстояние между заголовком и кнопкой */
 }
 
+.column-left {
+    font-size: 18px; /* Размер шрифта для заголовка */
+    color: rgba(110, 110, 110, 0.8); /* Опциональный цвет текста */
+}
+
+.btn-add-answer {
+    padding: 10px 20px;
+    background-color: #c98b6f;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.btn-add-answer:hover {
+    background-color: #f5b090;
+}
 /* Текст вопроса */
 .question-text {
     margin-bottom: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .question-text .editable-text {
@@ -41,7 +83,10 @@
 
 /* Варианты ответов */
 .answer-container {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    max-height: calc(50vh - 120px); /* Адаптивная высота для ответов */
+    padding-right: 10px;
 }
 
 .answer-item {
@@ -73,41 +118,117 @@
     font-size: 16px;
 }
 
-/* Теги */
 .tags-container {
-    background-color: rgba(240, 248, 255, 0.8);
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    max-height: 25vh;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-    max-height: 150px;
-    overflow-y: auto;
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
+		
 }
 
-.tags-container h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.tags-header {
+    position: relative;
+    top: 0;
+    z-index: 2;
+    background-color: #ffffff00;
+    padding: 10px;
+
+}
+
+.tags-header h2 {
     text-align: center;
-    color: #333;
+    font-size: 24px;
+    color: rgba(110, 110, 110, 0.644);
+		
+}
+
+.tags-search-bar-container {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.tags-search-bar {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff5e;
+}
+
+.tags-search-bar:focus {
+    outline: none;
+    border-color: #007bff;
 }
 
 .tags-grid {
+    max-height: 50px; /* Высота с учетом фиксированного заголовка и поиска */
+    overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);;
+    grid-template-columns: repeat(3, 1fr); /* 3 столбца */
     gap: 15px;
+    padding: 20px;
+
 }
 
+/* Элементы меток */
 .tag-item {
     display: flex;
     align-items: center;
+    font-size: 13px;
 }
 
 .tag-item input[type="checkbox"] {
     margin-right: 10px;
 }
 
-/* Кнопки */
+/* Стили для прокрутки */
+.tags-grid::-webkit-scrollbar {
+    width: 10px;
+		
+}
+
+.tags-grid::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+		max-height: 100px;
+}
+
+.tags-grid::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+/* Кнопка очистки меток */
+.clear-tags-button {
+    width: 30%;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+    background-color: #4269e2;
+}
+
+.clear-tags-button:hover {
+    background-color: #5b81f1;
+}
+
+/* Кнопки действия */
 .buttons-container {
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
 }
@@ -118,37 +239,68 @@
     font-size: 16px;
     color: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;;
 }
 
+
+
+
 .buttons-container .btn-save {
-    background-color: #4caf50;
+    background-color: #c98b6f;
 }
 
 .buttons-container .btn-save:hover {
-    background-color: #45a049;
+    background-color: #f5b090;
 }
 
 .buttons-container .btn-cancel {
-    background-color: #f44336;
+    background-color: #4269e2;
 }
 
 .buttons-container .btn-cancel:hover {
+    background-color: #5b81f1;
+}
+
+/* Кнопка удаления ответа */
+.btn-delete-answer {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.btn-delete-answer:hover {
     background-color: #e53935;
 }
 
-/* Стили для прокрутки */
-.tags-container::-webkit-scrollbar {
-    width: 8px; /* Ширина скроллбара */
+.messages {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
 }
 
-.tags-container::-webkit-scrollbar-thumb {
-    background: #007bff; /* Цвет ползунка */
-    border-radius: 4px; /* Закругленные края */
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    border: 1px solid transparent;
+    border-radius: 5px;
 }
 
-.tags-container::-webkit-scrollbar-track {
-    background: #e0e0e0; /* Цвет фона скроллбара */
+.message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
 }
