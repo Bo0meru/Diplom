@@ -85,3 +85,4 @@ def login_register_view(request):
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html', {'user': request.user})
+

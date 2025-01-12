@@ -5,4 +5,4 @@ class DashboardConfig(AppConfig):
     name = 'dashboard'
 
     def ready(self):
-        import dashboard.signals  # Импортируем файл сигналов
+        import dashboard.signals  # Убедитесь, что файл сигналов импортирован

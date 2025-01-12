@@ -12,11 +12,14 @@ from django.forms import inlineformset_factory
 from django.db.models import Exists, OuterRef
 from django.db.models import Q, F, Value, BooleanField, Case, When
 from django.contrib import messages
+import requests
 
 
 # Инициализация IDS
 ids = IDS()
 
+def block_ip(ip):
+    requests.post('http://127.0.0.1:5000/block_ip', json={'ip': ip, 'duration': 5})
 
 def check_access_or_redirect(request):
     """
