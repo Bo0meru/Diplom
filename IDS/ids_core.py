@@ -7,11 +7,14 @@ from alert_bot.notify import send_notification
 from flask import Flask, request, jsonify
 from collections import defaultdict
 import geoip2.database
-from django.utils.timezone import localtime,now
+from datetime import datetime, timedelta
 import threading
 from multiprocessing import Process
 from threading import Lock
+import pytz
 
+
+MOSCOW_TZ = pytz.timezone("Europe/Moscow")
 # Настройка логирования с поддержкой UTF-8
 log_path = os.path.join(os.path.dirname(__file__), 'ids_log.log')
 logging.basicConfig(
@@ -41,7 +44,7 @@ class IDS:
         self.blocked_ips = {}
         self.user_activity = defaultdict(list)
         self.failed_attempts = defaultdict(int)
-        self.block_duration = timedelta(seconds=5)  # Длительность блокировки
+        self.block_duration = timedelta(seconds=10)  # Длительность блокировки
         self._start_cleanup_task()
 
 
@@ -49,8 +52,9 @@ class IDS:
         """Запуск фоновой задачи для очистки истёкших блокировок."""
         def cleanup_blocked_ips():
             while True:
-                now_time = now()  # Используем django.utils.timezone.now()
-                print(f"[DEBUG] Сейчас {now_time}, проверка истёкших блокировок...")
+                now_time = datetime.now(pytz.UTC)
+                # now_time = now()  # Используем django.utils.timezone.now()
+                # print(f"[DEBUG] Сейчас {now_time}, проверка истёкших блокировок...")
                 with self.lock:  # Защищаем доступ к shared-ресурсам
                     expired_ips = [ip for ip, end_time in self.blocked_ips.items() if now_time > end_time]
 
@@ -92,6 +96,7 @@ class IDS:
     def check_ip(self, ip_address):
         if ip_address in self.blocked_ips:
             end_time = self.blocked_ips[ip_address]
+            now = datetime.utcnow()
             if now() < end_time:
                 logging.info(f"IP {ip_address} заблокирован до {end_time}")
                 print(f"[DEBUG] IP {ip_address} заблокирован до {end_time}")
@@ -134,14 +139,15 @@ class IDS:
 
     # 2. Обнаружение подозрительной активности на основе частоты действий
     def track_activity(self, user):
-        now = time.time()
-        self.user_activity[user].append(now)
+        now = datetime.utcnow()
 
+        # Добавляем текущую временную отметку
+        self.user_activity[user].append(now)
         # Фильтрация событий за последние 60 секунд
-        recent_activity = [t for t in self.user_activity[user] if now - t < 60]
+        recent_activity = [t for t in self.user_activity[user] if (now - t).total_seconds() < 60]
         self.user_activity[user] = recent_activity
 
-        if len(recent_activity) > 10:
+        if len(recent_activity) > 15:
             self.log_event(user, "Высокая частота действий", critical=True)
             if self.alert_func:
                 print(f"[DEBUG] Уведомление: Высокая частота действий от пользователя {user}")
@@ -171,16 +177,18 @@ class IDS:
         self.failed_attempts[ip] += 1
 
         if self.failed_attempts[ip] > 3:  # Увеличьте лимит до нужного значения
-            end_time = now() + self.block_duration
+            now_time = datetime.now(pytz.UTC)
+            end_time = now_time + self.block_duration
             self.blocked_ips[ip] = end_time
-            local_end_time = localtime(end_time).strftime('%Y-%m-%d %H:%M:%S')  # Преобразование в локальное время
+            local_end_time = end_time.astimezone(MOSCOW_TZ).strftime('%Y-%m-%d %H:%M:%S')
+            local_end_time = end_time.astimezone(MOSCOW_TZ).strftime('%Y-%m-%d %H:%M:%S')
             print(f"[DEBUG] Блокировка IP {ip} до {local_end_time}")
             self.log_event(username, f"Превышено количество попыток входа. Блокировка до {local_end_time}.", ip=ip, critical=True)
-            # logging.info(f"Пользователь {username}. Превышено количество попыток входа. Блокировка до {local_end_time}.")
             return False, local_end_time
 
+
         # Сбрасываем счётчик, если блокировка истекла
-        if ip in self.blocked_ips and now() > self.blocked_ips[ip]:
+        if ip in self.blocked_ips and now_time() > self.blocked_ips[ip]:
             print(f"[DEBUG] Сброс счётчика неудачных попыток для IP {ip}")
             del self.failed_attempts[ip]
 
@@ -211,16 +219,17 @@ class IDS:
 
     # 5. Блокировка подозрительного IP
     def block_ip(self, ip_address, user="unknown"):
-        end_time = self.blocked_ips.get(ip_address, datetime.now() + self.block_duration)
+        now_time = datetime.now(pytz.UTC)
+        end_time = self.blocked_ips.get(ip_address, now_time + self.block_duration)
         self.blocked_ips[ip_address] = end_time
-
-        event = f"IP {ip_address} заблокирован из-за подозрительной активности до {end_time.strftime('%Y-%m-%d %H:%M:%S')}"
+        local_end_time = end_time.astimezone(MOSCOW_TZ).strftime('%Y-%m-%d %H:%M:%S')
+        event = f"IP {ip_address} заблокирован из-за подозрительной активности до {local_end_time}"
         print("[DEBUG] Отправка уведомления через alert_func")
         self.log_event(
                 user=user,
                 critical=True,
                 ip=ip_address,
-                action=f"IP {ip_address} временно заблокирован до {end_time.strftime('%Y-%m-%d %H:%M:%S')}"
+                action=f"IP {ip_address} временно заблокирован до {local_end_time}"
             )      
 
  # 6. Создание отчёта за указанный период

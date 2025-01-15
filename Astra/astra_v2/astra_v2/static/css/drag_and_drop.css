@@ -1,0 +1,216 @@
+/* Общий контейнер страницы */
+.questions-page-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    gap: 20px;
+    max-width: auto;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+/* Стили для банка вопросов */
+.bank-questions {
+    flex: 2;
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 70vh;
+    z-index: 2;
+}
+
+.bank-questions h2 {
+    text-align: center;
+    font-size: 20px;
+    color: rgba(110, 110, 110, 0.644);
+    margin-bottom: 10px;
+}
+
+#questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.question-item {
+    padding: 10px 15px;
+    background-color: #e7f3ff;
+    border: 1px dashed #007bff;
+    border-radius: 5px;
+    cursor: grab;
+    color: rgba(110, 110, 110, 0.644);
+    transition: background-color 0.2s ease;
+}
+
+.question-item.dragging {
+    opacity: 0.6;
+    cursor: grabbing;
+}
+
+.question-item:hover {
+    background-color: #d0e8ff;
+}
+
+/* Стили для выгружаемого банка */
+.export-bank {
+    flex: 2;
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 70vh;
+    z-index: 2;
+}
+
+.export-bank h2 {
+    text-align: center;
+    font-size: 20px;
+    color: rgba(110, 110, 110, 0.644);
+    margin-bottom: 10px;
+}
+
+#export-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+    min-height: 100px;
+    border: 2px dashed #ffa500;
+    border-radius: 5px;
+    padding: 10px;
+    color: rgba(110, 110, 110, 0.644);
+    background-color: #ffbb5642;
+}
+
+/* Стили для фильтра меток */
+.tags-container {
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    max-height: 25vh;
+    margin: 0 auto;
+    padding: 20px;
+    overflow: hidden;
+    z-index: 2;
+    flex: 3;
+    
+		
+}
+
+.tags-header {
+    
+    position: relative;
+    top: 0;
+    z-index: 2;
+    background-color: #ffffff00;
+    padding: 10px;
+
+}
+
+.tags-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: rgba(110, 110, 110, 0.644);
+		
+}
+
+.tags-search-bar-container {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.tags-search-bar {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff5e;
+}
+
+.tags-search-bar:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.tags-grid {
+    max-height: 100px; /* Высота с учетом фиксированного заголовка и поиска */
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 столбца */
+    gap: 15px;
+    padding: 20px;
+
+}
+
+/* Элементы меток */
+.tag-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.tag-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Стили для прокрутки */
+.tags-grid::-webkit-scrollbar {
+    width: 10px;
+		
+}
+
+.tags-grid::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+		max-height: 100px;
+}
+
+.tags-grid::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+/* Кнопка очистки меток */
+.clear-tags-button {
+    width: 30%;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+    background-color: #4269e2;
+}
+
+.clear-tags-button:hover {
+    background-color: #5b81f1;
+}
+.export-button-container {
+
+  z-index: 2;
+
+}
+.btn-save {
+   background-color: #4269e2;
+	color: #ffffff;
+	padding: 15px;
+	border: none;
+	border-radius: 50px;
+	font-size: 12px;
+	cursor: pointer;
+	width: 100%;
+	margin-top: 20px;
+	transition: background-color 0.3s ease;
+  z-index: 2;
+
+}

@@ -1,0 +1,185 @@
+/* Общие стили */
+a {
+    text-decoration: none;
+}
+
+/* Устанавливаем общий цвет текста для всей страницы */
+.edit-document-container {
+    color: rgba(110, 110, 110, 0.644);
+}
+
+.tags-container .tag-item input[type="checkbox"] + label {
+    color: initial; /* Возвращаем к начальному цвету */
+}
+
+/* Контейнер редактирования */
+.edit-document-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    max-height: calc(100vh - 40px); /* Высота относительно экрана */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Заголовок */
+.edit-document-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: rgba(110, 110, 110, 0.644);
+}
+
+/* Название документа */
+.document-title {
+    margin-bottom: 20px;
+}
+
+.document-title input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Описание документа */
+.document-description {
+    margin-bottom: 20px;
+}
+
+.document-description textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+/* Файл документа */
+.document-file {
+    margin-bottom: 20px;
+}
+
+.document-file input {
+    font-size: 16px;
+}
+
+.document-file p {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Блок тегов */
+.tags-container {
+    background-color: #ffffff5e;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    max-height: 25vh;
+    margin: 0 auto;
+    padding: 20px;
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
+}
+
+.tags-container h3 {
+    text-align: center;
+    font-size: 18px;
+    color: rgba(110, 110, 110, 0.644);
+    margin-bottom: 10px;
+}
+
+.tags-search-bar {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff5e;
+    margin-bottom: 20px;
+}
+
+.tags-search-bar:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.tags-grid {
+    max-height: 50px; /* Высота с учетом фиксированного заголовка и поиска */
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 столбца */
+    gap: 15px;
+    padding: 20px;
+}
+
+/* Элементы меток */
+.tag-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+}
+
+.tag-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Стили для прокрутки */
+.tags-grid::-webkit-scrollbar {
+    width: 10px;
+}
+
+.tags-grid::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+}
+
+.tags-grid::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 10px;
+}
+
+/* Кнопки действия */
+.buttons-container {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons-container button {
+    width: 45%;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttons-container .btn-save {
+    background-color: #c98b6f;
+}
+
+.buttons-container .btn-save:hover {
+    background-color: #f5b090;
+}
+
+.buttons-container .btn-cancel {
+    background-color: #4269e2;
+}
+
+.buttons-container .btn-cancel:hover {
+    background-color: #5b81f1;
+}

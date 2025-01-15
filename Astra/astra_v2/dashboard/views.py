@@ -13,6 +13,19 @@ from django.db.models import Exists, OuterRef
 from django.db.models import Q, F, Value, BooleanField, Case, When
 from django.contrib import messages
 import requests
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Question, Answer
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
+from docx import Document as DocxDocument
+from docx.shared import RGBColor
+from .models import Question
+from datetime import datetime, timedelta
+from dashboard.models import Document
+
 
 
 # Инициализация IDS
@@ -220,3 +233,72 @@ def edit_question(request, pk):
         "answers": answers,
         "all_tags": all_tags,
     })
+
+@login_required
+def export(request):
+    """
+    Отображает страницу для работы с банком вопросов и их выгрузкой.
+    """
+    questions = Question.objects.all()
+    all_tags = Tag.objects.all()
+
+    return render(request, 'dashboard/export.html', {
+        'questions': questions,
+        'all_tags': all_tags,
+    })
+
+@require_POST
+def export_to_docx(request):
+    """ Принимает список ID вопросов (JSON), формирует docx и возвращает файл. """
+    try:
+        data = json.loads(request.body)
+        question_ids = data.get('question_ids', [])
+    except Exception as e:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
+
+    if not question_ids:
+        return JsonResponse({'error': 'No question IDs provided'}, status=400)
+
+    # Получаем список вопросов из базы
+    questions = Question.objects.filter(id__in=question_ids).prefetch_related('answers')
+
+    # Создаём docx-файл
+    doc = DocxDocument()
+    doc.add_heading('Выгрузка вопросов', 0)
+
+
+
+    counter = 1
+    for q in questions:
+        # Заголовок для каждого вопроса
+        doc.add_heading(f'Вопрос №{counter}', level=1)
+        
+        # Текст вопроса
+        paragraph = doc.add_paragraph()
+        paragraph.add_run(str(q.text)).bold = True
+
+        # Ответы (если есть)
+        if hasattr(q, 'answers'):
+            doc.add_paragraph("Ответы:", style='List Bullet')
+            for ans in q.answers.all():
+                # Добавим ответ в новый параграф со стилем списка
+                ans_paragraph = doc.add_paragraph(style='List Bullet')
+                run = ans_paragraph.add_run(ans.text)
+
+                # Если ответ верный — красим в зелёный
+                if ans.correct:
+                    run.font.color.rgb = RGBColor(0x00, 0x80, 0x00)
+
+        counter += 1
+
+    # Формируем имя файла, например: Export_20230113_120000.docx
+    filename = f"Export_{datetime.now()}.docx"
+
+    # Отправляем docx как бинарный контент
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    )
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    doc.save(response)
+    return response

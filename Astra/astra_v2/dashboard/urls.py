@@ -37,6 +37,8 @@ urlpatterns = [
     path("documents/<int:pk>/edit/", views.edit_document, name="edit_document"),
     path('questions/<int:pk>/edit/', views.edit_question, name='edit_question'),
     path('questions/create/', views.create_question, name='create_question'),
+    path('export/', views.export, name='export'),
+    path("export-to-docx/", views.export_to_docx, name='export_to_docx')
 ] 
 
 if settings.DEBUG:

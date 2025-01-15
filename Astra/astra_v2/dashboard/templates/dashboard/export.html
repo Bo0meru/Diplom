@@ -1,0 +1,170 @@
+{% extends "home/base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/drag_and_drop.css' %}">
+<style>
+/* Пример базовых стилей, чтобы визуально отделять зоны */
+.questions-page-container {
+    display: flex;
+    gap: 2rem;
+    margin: 20px;
+}
+.bank-questions, .export-bank {
+    flex: 1;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    min-height: 300px;
+    position: relative;
+}
+.bank-questions h2, .export-bank h2 {
+    margin-top: 0;
+}
+.question-item {
+    background: #f0f0f0;
+    margin: 5px 0;
+    padding: 10px;
+    cursor: grab;
+    border: 1px solid #ccc;
+}
+.question-item.dragging {
+    opacity: 0.5;     /* Пример "прозрачности" во время перетаскивания */
+    border-color: #999;
+}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<div class="questions-page-container">
+
+    <!-- Банк вопросов (левая колонка) -->
+    <div class="bank-questions" id="bank-questions">
+        <h2>Банк вопросов</h2>
+        <div id="questions-list">
+            {% for question in questions %}
+            <div
+                class="question-item"
+                draggable="true"
+                data-id="{{ question.id }}"
+                data-tags="{{ question.tags.values_list|join:',' }}">
+                {{ question.text }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Выгружаемый банк (правая колонка) -->
+    <div class="export-bank" id="export-bank">
+        <h2>Выгружаемый банк</h2>
+        <div id="export-list"></div>
+    </div>
+
+    <!-- Фильтр по меткам (может находиться где угодно, при желании) -->
+    <div class="tags-container">
+        <h2>Фильтр по меткам</h2>
+        <input type="text" id="tags-search-bar" class="tags-search-bar" placeholder="🔍 Поиск по меткам...">
+        <div id="tags-grid" class="tags-grid">
+            {% for tag in all_tags %}
+            <div class="tag-item">
+                <label>
+                    <input type="checkbox" class="tag-checkbox" data-id="{{ tag.id }}">
+                    {{ tag.name }}
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Кнопка выгрузки, если нужна -->
+<div class="export-button-container" style="margin: 0 20px; z-index: 2;">
+    <button id="export-button" class="btn-save">Выгрузить вопросы</button>
+</div>
+</div>
+
+
+
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+// --------------------- DRAG & DROP ЛОГИКА ---------------------
+document.addEventListener('DOMContentLoaded', function() {
+    const questionsList = document.getElementById('questions-list');
+    const exportList = document.getElementById('export-list');
+    const exportButton = document.getElementById('export-button');
+
+    // Навешиваем обработчики на все .question-item (начальный список)
+    document.querySelectorAll('.question-item').forEach(item => {
+        item.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', e.target.dataset.id);
+            e.target.classList.add('dragging');
+        });
+        item.addEventListener('dragend', e => {
+            e.target.classList.remove('dragging');
+        });
+    });
+
+    // Функция, разрешающая сброс в указанный контейнер
+    function enableDropZone(dropZone) {
+        dropZone.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+        dropZone.addEventListener('drop', e => {
+            e.preventDefault();
+            const questionId = e.dataTransfer.getData('text/plain');
+            const draggedElement = document.querySelector(`.question-item[data-id='${questionId}']`);
+            if (draggedElement && !dropZone.contains(draggedElement)) {
+                dropZone.appendChild(draggedElement);
+            }
+        });
+    }
+    enableDropZone(questionsList);
+    enableDropZone(exportList);
+
+    // --------------------- ВЫГРУЗКА СПИСКА ВОПРОСОВ ---------------------
+    exportButton.addEventListener('click', function() {
+        // Соберём все data-id вопросов в "Выгружаемом банке"
+        const exportedItems = exportList.querySelectorAll('.question-item');
+        const questionIds = Array.from(exportedItems).map(item => item.dataset.id);
+
+        if (questionIds.length === 0) {
+            alert('Нет вопросов для выгрузки!');
+            return;
+        }
+
+        // Делаем POST-запрос на эндпоинт "export_to_docx" (нужно будет создать)
+        // и передаём массив ID.
+        // По итогу сервер вернёт docx-файл для скачивания.
+        fetch("{% url 'export_to_docx' %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',  // не забудьте, если включён CSRF
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ question_ids: questionIds })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка при формировании файла.');
+            }
+            // Чтобы скачать файл, нужно превратить ответ в blob и создать ссылку на него
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            // Имя файла, которое будет у скачиваемого docx
+            a.download = 'exported_questions.docx';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Ошибка при выгрузке файла');
+        });
+    });
+});
+</script>
+{% endblock extra_js %}
