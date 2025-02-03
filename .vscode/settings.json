@@ -1,3 +1,0 @@
-{
-	"python.analysis.extraPaths": ["./IDS", "./venv/Lib/site-packages"]
-}
